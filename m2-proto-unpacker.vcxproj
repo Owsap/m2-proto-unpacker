@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{04CFDCE4-CA6F-42E3-AE5C-D313E1F4FC5D}</ProjectGuid>
+    <Keyword>Win32</Keyword>
+    <RootNamespace>proto_unpacked</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <!-- Debug Config -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <!-- Release Config -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <!-- OUTPUT DIRECTORIES -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)binary\debug\m2-proto-unpacker\</OutDir>
+    <IntDir>$(SolutionDir)binary\debug\m2-proto-unpacker\obj\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)binary\release\m2-proto-unpacker\</OutDir>
+    <IntDir>$(SolutionDir)binary\release\m2-proto-unpacker\obj\</IntDir>
+  </PropertyGroup>
+  <!-- COMPILE SETTINGS -->
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)vendor</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)binary\debug\snappy\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>snappy.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)vendor</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <AdditionalLibraryDirectories>$(SolutionDir)binary\release\snappy\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>snappy.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <!-- SOURCE FILES -->
+  <ItemGroup>
+    <ClCompile Include="src\compression\compression.cpp" />
+    <ClCompile Include="src\compression\snappy_algorithm.cpp" />
+    <ClCompile Include="src\crypto\tea.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\protos\item_proto.cpp" />
+    <ClCompile Include="src\protos\mob_proto.cpp" />
+    <ClCompile Include="src\proto_dumper.cpp" />
+    <ClCompile Include="src\proto_loader.cpp" />
+    <ClCompile Include="src\proto_unpacker.cpp" />
+  </ItemGroup>
+  <!-- HEADER FILES -->
+  <ItemGroup>
+    <ClInclude Include="include\compression\compression.h" />
+    <ClInclude Include="include\compression\compression_algorithm.h" />
+    <ClInclude Include="include\compression\snappy_algorithm.h" />
+    <ClInclude Include="include\crypto\tea.h" />
+    <ClInclude Include="include\length.h" />
+    <ClInclude Include="include\utils.h" />
+    <ClInclude Include="include\protos\item_proto.h" />
+    <ClInclude Include="include\protos\mob_proto.h" />
+    <ClInclude Include="include\proto_dumper.h" />
+    <ClInclude Include="include\proto_loader.h" />
+    <ClInclude Include="include\proto_unpacker.h" />
+    <ClInclude Include="include\version.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>
