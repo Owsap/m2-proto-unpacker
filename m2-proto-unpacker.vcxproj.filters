@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{1fee57b1-0edf-4bf5-aaf0-a384d9bde8da}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{594d3e5e-1ef3-4edc-af2e-e920745af29a}</UniqueIdentifier>
+      <Extensions>h;hpp;inl</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Proto">
+      <UniqueIdentifier>{723189e1-d0f0-455c-a5c6-9ca235c05761}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Compression">
+      <UniqueIdentifier>{031a4ab2-dada-41bc-89c6-94568a1a2b3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Compression">
+      <UniqueIdentifier>{5ee2dea9-0601-49e0-a5c5-338b7142e06b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Proto">
+      <UniqueIdentifier>{daf0cb83-cfcd-47a1-a92c-8516baa10acd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Crypto">
+      <UniqueIdentifier>{41084f66-99e9-47e3-958e-b726798a14e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Crypto">
+      <UniqueIdentifier>{f780a11f-7d8a-4336-a01d-f82e55a71012}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\proto_dumper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\proto_loader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\proto_unpacker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protos\item_proto.cpp">
+      <Filter>Source Files\Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protos\mob_proto.cpp">
+      <Filter>Source Files\Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="src\compression\compression.cpp">
+      <Filter>Source Files\Compression</Filter>
+    </ClCompile>
+    <ClCompile Include="src\compression\snappy_algorithm.cpp">
+      <Filter>Source Files\Compression</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto\tea.cpp">
+      <Filter>Source Files\Crypto</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\length.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\proto_dumper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\proto_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\proto_unpacker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protos\item_proto.h">
+      <Filter>Header Files\Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="include\protos\mob_proto.h">
+      <Filter>Header Files\Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="include\compression\compression.h">
+      <Filter>Header Files\Compression</Filter>
+    </ClInclude>
+    <ClInclude Include="include\compression\compression_algorithm.h">
+      <Filter>Header Files\Compression</Filter>
+    </ClInclude>
+    <ClInclude Include="include\compression\snappy_algorithm.h">
+      <Filter>Header Files\Compression</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crypto\tea.h">
+      <Filter>Header Files\Crypto</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
