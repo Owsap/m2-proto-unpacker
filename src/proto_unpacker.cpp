@@ -12,9 +12,17 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 
+ProtoUnpacker::ProtoUnpacker()
+	: m_item_proto_path("item_proto")
+	, m_mob_proto_path("mob_proto")
+	, m_json_path("tea-keys.json")
+	, m_output_dir("./")
+{
+}
+
 void ProtoUnpacker::run()
 {
-	main_logger()->info("working directory: {}", std::filesystem::current_path().string());
+	main_logger()->debug("working directory: {}", std::filesystem::current_path().string());
 
 	Timer timer;
 	timer.reset();
@@ -22,21 +30,20 @@ void ProtoUnpacker::run()
 	ProtoKey item_proto_key{};
 	ProtoKey mob_proto_key{};
 
-	if (!load_keys_from_json("tea-keys.json", item_proto_key, mob_proto_key))
+	if (!load_keys_from_json(m_json_path, item_proto_key, mob_proto_key))
 	{
-		main_logger()->error("failed to load tea-keys.json");
+		main_logger()->error("failed to load key file {}", m_json_path);
 		return;
 	}
 
 	m_proto_loader.set_keys(item_proto_key, mob_proto_key);
+	m_proto_dumper.set_output_dir(m_output_dir);
 
 	main_logger()->info("loading item_proto...");
-	if (m_proto_loader.load_item_proto())
-	{
+	if (m_proto_loader.load_item_proto(m_item_proto_path))
 		m_proto_dumper.dump_item_proto(m_proto_loader.get_item_proto_map());
-	}
 	else
-		main_logger()->error("failed to load item_proto");
+		main_logger()->error("failed to load {}", m_item_proto_path);
 
 	main_logger()->info("completed in {:.2f} seconds.", timer.elapsed_seconds());
 
@@ -47,12 +54,10 @@ void ProtoUnpacker::run()
 	timer.reset();
 
 	main_logger()->info("loading mob_proto...");
-	if (m_proto_loader.load_mob_proto())
-	{
+	if (m_proto_loader.load_mob_proto(m_mob_proto_path))
 		m_proto_dumper.dump_mob_proto(m_proto_loader.get_mob_proto_map());
-	}
 	else
-		main_logger()->error("failed to load mob_proto");
+		main_logger()->error("failed to load {}", m_mob_proto_path);
 
 	main_logger()->info("completed in {:.2f} seconds.", timer.elapsed_seconds());
 }
@@ -101,4 +106,24 @@ bool ProtoUnpacker::load_keys_from_json(const std::string& path, ProtoKey& item_
 	}
 
 	return true;
+}
+
+void ProtoUnpacker::set_item_proto_path(const std::string& path)
+{
+	m_item_proto_path = path;
+}
+
+void ProtoUnpacker::set_mob_proto_path(const std::string& path)
+{
+	m_mob_proto_path = path;
+}
+
+void ProtoUnpacker::set_json_path(const std::string& path)
+{
+	m_json_path = path;
+}
+
+void ProtoUnpacker::set_output_dir(const std::string& dir)
+{
+	m_output_dir = dir;
 }

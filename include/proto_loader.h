@@ -28,14 +28,14 @@ public:
 
 	void set_keys(const ProtoKey& item_proto_key, const ProtoKey& mob_proto_key);
 
-	bool load_item_proto();
-	bool load_mob_proto();
+	bool load_item_proto(const std::string& path);
+	bool load_mob_proto(const std::string& path);
 
 	const ItemProtoMap& get_item_proto_map() const { return m_item_proto_map; }
 	const MobProtoMap& get_mob_proto_map() const { return m_mob_proto_map; }
 
 private:
-	bool load(const char* filename, ProtoType type, const ProtoKey& key);
+	bool load(const std::string& path, ProtoType type, const ProtoKey& key);
 
 	ItemProtoMap m_item_proto_map;
 	MobProtoMap m_mob_proto_map;

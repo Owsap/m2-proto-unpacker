@@ -103,7 +103,7 @@ enum class MobRaceFlag
 	ANIMAL = 0,
 	UNDEAD = 1,
 	DEVIL = 2,
-	HUMAN =3,
+	HUMAN = 3,
 	ORC = 4,
 	MILGYO = 5,
 	INSECT = 6,

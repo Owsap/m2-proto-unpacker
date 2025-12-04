@@ -18,7 +18,56 @@
 #include <proto_unpacker.h>
 #include <utils.h>
 
-void init_loggers()
+struct Arguments
+{
+	std::string item_proto_path;
+	std::string mob_proto_path;
+	std::string keys_path;
+	std::string out_dir = ".";
+
+	bool show_help = false;
+	bool show_version = false;
+	bool verbose = false;
+	bool silent = false;
+};
+
+Arguments parse_arguments(int argc, char** argv)
+{
+	Arguments args;
+
+	for (int i = 1; i < argc; ++i)
+	{
+		std::string a = argv[i];
+
+		if (a == "--item_proto" && i + 1 < argc)
+			args.item_proto_path = argv[++i];
+
+		else if (a == "--mob_proto" && i + 1 < argc)
+			args.mob_proto_path = argv[++i];
+
+		else if (a == "--keys" && i + 1 < argc)
+			args.keys_path = argv[++i];
+
+		else if (a == "--out" && i + 1 < argc)
+			args.out_dir = argv[++i];
+
+		else if (a == "--help")
+			args.show_help = true;
+
+		else if (a == "--version")
+			args.show_version = true;
+
+		else if (a == "--verbose")
+			args.verbose = true;
+
+		else if (a == "--silent")
+			args.silent = true;
+	}
+
+	return args;
+}
+
+void init_loggers(bool verbose, bool silent)
 {
 	auto header = std::make_shared<spdlog::logger>("header", std::make_shared<spdlog::sinks::stdout_sink_mt>());
 	header->set_pattern("%v");
@@ -31,16 +80,37 @@ void init_loggers()
 	auto detail = std::make_shared<spdlog::logger>("detail", std::make_shared<spdlog::sinks::stdout_sink_mt>());
 	detail->set_pattern("  %v");
 	spdlog::register_logger(detail);
+
+	if (silent)
+	{
+		header->set_level(spdlog::level::err);
+		main->set_level(spdlog::level::err);
+		detail->set_level(spdlog::level::off);
+	}
+	else if (verbose)
+	{
+		header->set_level(spdlog::level::debug);
+		main->set_level(spdlog::level::debug);
+		detail->set_level(spdlog::level::debug);
+	}
+	else
+	{
+		header->set_level(spdlog::level::info);
+		main->set_level(spdlog::level::info);
+		detail->set_level(spdlog::level::info);
+	}
 }
 
 void print_header()
 {
-	header_logger()->info("Proto Unpacker v{}", VERSION_STRING);
-	header_logger()->info("(c) 2025 Owsap. All rights reserved.");
-	header_logger()->info("");
-	header_logger()->info("Proto Version : {}", PROTO_VERSION_STRING);
-	header_logger()->info("Build Date : Dec 2, 2025");
-	header_logger()->info("");
+	auto log = header_logger();
+
+	log->info("Proto Unpacker v{}", VERSION_STRING);
+	log->info("(c) 2025 Owsap. All rights reserved.");
+	log->info("");
+	log->info("Proto Version : {}", PROTO_VERSION_STRING);
+	log->info("Build Date : {}", __DATE__);
+	log->info("");
 }
 
 void print_footer(double total_seconds)
@@ -48,15 +118,65 @@ void print_footer(double total_seconds)
 	main_logger()->info("completed all tasks in {:.2f} seconds.", total_seconds);
 }
 
-int main()
+void print_help()
 {
-	init_loggers();
+	auto log = header_logger();
+
+	log->info("Usage: m2-proto-unpacker [options]");
+	log->info("");
+	log->info("If no arguments are given, the tool searches in the current directory:");
+	log->info("  item_proto");
+	log->info("  mob_proto");
+	log->info("  tea-keys.json");
+	log->info("");
+	log->info("Options:");
+	log->info("  --item_proto <path>   Directory or full path to item_proto");
+	log->info("  --mob_proto <path>    Directory or full path to mob_proto");
+	log->info("  --keys <path>         Directory or full path to tea-keys.json");
+	log->info("  --out <path>          Output directory for .txt files");
+	log->info("  --version             Show version");
+	log->info("  --help                Show this help");
+	log->info("  --verbose             Show detailed debug logs");
+	log->info("  --silent              Only show errors (no header)");
+}
+
+int main(int argc, char** argv)
+{
+	Arguments args = parse_arguments(argc, argv);
+	init_loggers(args.verbose, args.silent);
+
+	if (args.show_help)
+	{
+		print_help();
+		return 0;
+	}
+
+	if (args.show_version)
+	{
+		print_header();
+		return 0;
+	}
+
 	print_header();
 
-	Timer timer;
 	ProtoUnpacker pu;
+
+	if (!args.item_proto_path.empty())
+		pu.set_item_proto_path(args.item_proto_path);
+
+	if (!args.mob_proto_path.empty())
+		pu.set_mob_proto_path(args.mob_proto_path);
+
+	if (!args.keys_path.empty())
+		pu.set_json_path(args.keys_path);
+
+	if (!args.out_dir.empty())
+		pu.set_output_dir(args.out_dir);
+
+	Timer timer;
 	pu.run();
 
 	print_footer(timer.elapsed_seconds());
+
 	return 0;
 }

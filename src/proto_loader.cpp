@@ -25,19 +25,19 @@ void ProtoLoader::set_keys(const ProtoKey& item_proto_key, const ProtoKey& mob_p
 	m_mob_proto_key = mob_proto_key;
 }
 
-bool ProtoLoader::load_item_proto()
+bool ProtoLoader::load_item_proto(const std::string& path)
 {
-	return load("item_proto", ProtoType::ITEM, m_item_proto_key);
+	return load(path, ProtoType::ITEM, m_item_proto_key);
 }
 
-bool ProtoLoader::load_mob_proto()
+bool ProtoLoader::load_mob_proto(const std::string& path)
 {
-	return load("mob_proto", ProtoType::MOB, m_mob_proto_key);
+	return load(path, ProtoType::MOB, m_mob_proto_key);
 }
 
-bool ProtoLoader::load(const char* filename, ProtoType type, const ProtoKey& key)
+bool ProtoLoader::load(const std::string& path, ProtoType type, const ProtoKey& key)
 {
-	std::ifstream f(filename, std::ios::binary);
+	std::ifstream f(path, std::ios::binary);
 	if (!f)
 		return false;
 
@@ -92,7 +92,7 @@ bool ProtoLoader::load(const char* filename, ProtoType type, const ProtoKey& key
 
 	if (!f)
 	{
-		spdlog::error("failed to load {}", filename);
+		spdlog::error("failed to load {}", path);
 		return false;
 	}
 

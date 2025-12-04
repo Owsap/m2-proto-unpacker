@@ -427,7 +427,7 @@ enum class ItemAntiFlag
 	ANTI_FEMALE = 0,
 	ANTI_MALE = 1,
 	ANTI_MUSA = 2,
-	ANTI_ASSASSIN =3,
+	ANTI_ASSASSIN = 3,
 	ANTI_SURA = 4,
 	ANTI_MUDANG = 5,
 	ANTI_GET = 6,

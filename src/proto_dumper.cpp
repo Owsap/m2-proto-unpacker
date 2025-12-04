@@ -13,12 +13,29 @@
 
 #include <utils.h>
 
-static std::ofstream openfs(const std::filesystem::path& path)
+std::ofstream ProtoDumper::open_output_file(const std::string& filename) const
 {
-	std::ofstream out(path);
+	std::filesystem::path full_path = m_output_dir + filename;
+
+	std::ofstream out(full_path);
 	if (!out)
-		throw std::runtime_error("failed to open output file: " + path.string());
+		throw std::runtime_error("failed to open output file: " + full_path.string());
+
 	return out;
+}
+
+void ProtoDumper::set_output_dir(const std::string& dir)
+{
+	m_output_dir = dir;
+
+	if (!m_output_dir.empty() &&
+		m_output_dir.back() != '/' &&
+		m_output_dir.back() != '\\')
+	{
+		m_output_dir += '/';
+	}
+
+	std::filesystem::create_directories(m_output_dir);
 }
 
 void ProtoDumper::dump_item_proto(const ItemProtoMap& map)
@@ -33,9 +50,9 @@ void ProtoDumper::dump_item_proto(const ItemProtoMap& map)
 
 void ProtoDumper::dump_item_names() const
 {
-	detail_logger()->info("item_names.txt");
+	detail_logger()->info(m_output_dir + "item_names.txt");
 
-	std::ofstream out = openfs("item_names.txt");
+	std::ofstream out = open_output_file("item_names.txt");
 
 	out << "VNUM\tLOCALE_NAME\n";
 	for (const auto& [vnum, proto] : *m_item_proto_map)
@@ -44,9 +61,9 @@ void ProtoDumper::dump_item_names() const
 
 void ProtoDumper::dump_item_table() const
 {
-	detail_logger()->info("item_proto.txt");
+	detail_logger()->info(m_output_dir + "item_proto.txt");
 
-	std::ofstream out = openfs("item_proto.txt");
+	std::ofstream out = open_output_file("item_proto.txt");
 
 	out <<
 		"Vnum" "\t"
@@ -148,9 +165,9 @@ void ProtoDumper::dump_mob_proto(const MobProtoMap& map)
 
 void ProtoDumper::dump_mob_names() const
 {
-	detail_logger()->info("mob_names.txt");
+	detail_logger()->info(m_output_dir + "mob_names.txt");
 
-	std::ofstream out = openfs("mob_names.txt");
+	std::ofstream out = open_output_file("mob_names.txt");
 
 	out << "VNUM\tLOCALE_NAME\n";
 	for (const auto& [vnum, proto] : *m_mob_proto_map)
@@ -159,9 +176,9 @@ void ProtoDumper::dump_mob_names() const
 
 void ProtoDumper::dump_mob_table() const
 {
-	detail_logger()->info("mob_proto.txt");
+	detail_logger()->info(m_output_dir + "mob_proto.txt");
 
-	std::ofstream out = openfs("mob_proto.txt");
+	std::ofstream out = open_output_file("mob_proto.txt");
 
 	out <<
 		"Vnum" "\t"
@@ -340,7 +357,7 @@ void ProtoDumper::dump_mob_table() const
 			+proto.r_att_speed_p << "\t" <<
 			+proto.r_cast_speed << "\t" <<
 			+proto.r_hp_regen << "\t";
-		
+
 		out << std::fixed << std::setprecision(1) << proto.hit_range << "\n";
 		out << std::setprecision(0);
 	}
