@@ -27,15 +27,15 @@ void ProtoLoader::set_keys(const ProtoKey& item_proto_key, const ProtoKey& mob_p
 
 bool ProtoLoader::load_item_proto()
 {
-	return load("item_proto", PROTO_TYPE_ITEM, m_item_proto_key);
+	return load("item_proto", ProtoType::ITEM, m_item_proto_key);
 }
 
 bool ProtoLoader::load_mob_proto()
 {
-	return load("mob_proto", PROTO_TYPE_MOB, m_mob_proto_key);
+	return load("mob_proto", ProtoType::MOB, m_mob_proto_key);
 }
 
-bool ProtoLoader::load(const char* filename, uint8_t type, const ProtoKey& key)
+bool ProtoLoader::load(const char* filename, ProtoType type, const ProtoKey& key)
 {
 	std::ifstream f(filename, std::ios::binary);
 	if (!f)
@@ -47,7 +47,7 @@ bool ProtoLoader::load(const char* filename, uint8_t type, const ProtoKey& key)
 	uint32_t version = 0;
 	uint32_t stride = 0;
 
-	if (type == PROTO_TYPE_ITEM)
+	if (type == ProtoType::ITEM)
 	{
 		if (fourcc == MAKEFOURCC('M', 'I', 'P', 'X'))
 		{
@@ -72,7 +72,7 @@ bool ProtoLoader::load(const char* filename, uint8_t type, const ProtoKey& key)
 			return false;
 		}
 	}
-	else if (type == PROTO_TYPE_MOB)
+	else if (type == ProtoType::MOB)
 	{
 		if (fourcc != MAKEFOURCC('M', 'M', 'P', 'T'))
 		{
@@ -102,7 +102,7 @@ bool ProtoLoader::load(const char* filename, uint8_t type, const ProtoKey& key)
 	if (!compression.decrypt_and_decompress(compressed.data(), data_size, key, out))
 		return false;
 
-	if (type == PROTO_TYPE_ITEM)
+	if (type == ProtoType::ITEM)
 	{
 		uint32_t expected_size = count * sizeof(ItemProto);
 		if (out.size() != expected_size)
@@ -112,7 +112,7 @@ bool ProtoLoader::load(const char* filename, uint8_t type, const ProtoKey& key)
 		for (uint32_t i = 0; i < count; ++i)
 			m_item_proto_map.emplace(ptr[i].vnum, ptr[i]);
 	}
-	else if (type == PROTO_TYPE_MOB)
+	else if (type == ProtoType::MOB)
 	{
 		uint32_t expected_size = count * sizeof(MobProto);
 		if (out.size() != expected_size)

@@ -13,11 +13,10 @@
 #include <protos/item_proto.h>
 #include <protos/mob_proto.h>
 
-enum ProtoType
+enum class ProtoType : uint8_t
 {
-	PROTO_TYPE_ITEM,
-	PROTO_TYPE_MOB,
-	PROTO_TYPE_MAX_NUM,
+	ITEM,
+	MOB
 };
 
 using ProtoKey = std::array<uint32_t, 4>;
@@ -36,7 +35,7 @@ public:
 	const MobProtoMap& get_mob_proto_map() const { return m_mob_proto_map; }
 
 private:
-	bool load(const char* filename, uint8_t type, const ProtoKey& key);
+	bool load(const char* filename, ProtoType type, const ProtoKey& key);
 
 	ItemProtoMap m_item_proto_map;
 	MobProtoMap m_mob_proto_map;
