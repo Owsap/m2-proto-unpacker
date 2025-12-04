@@ -22,7 +22,7 @@ public:
 	ProtoUnpacker() = default;
 
 	void run();
-	bool load_keys_from_json(const std::string& path, uint32_t item_proto_key[4], uint32_t mob_proto_key[4]);
+	bool load_keys_from_json(const std::string& path, ProtoKey& item_proto_key, ProtoKey& mob_proto_key);
 
 private:
 	ProtoLoader m_proto_loader;

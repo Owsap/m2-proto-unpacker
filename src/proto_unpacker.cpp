@@ -19,7 +19,9 @@ void ProtoUnpacker::run()
 	Timer timer;
 	timer.reset();
 
-	uint32_t item_proto_key[4], mob_proto_key[4];
+	ProtoKey item_proto_key{};
+	ProtoKey mob_proto_key{};
+
 	if (!load_keys_from_json("tea-keys.json", item_proto_key, mob_proto_key))
 	{
 		main_logger()->error("failed to load tea-keys.json");
@@ -55,7 +57,7 @@ void ProtoUnpacker::run()
 	main_logger()->info("completed in {:.2f} seconds.", timer.elapsed_seconds());
 }
 
-bool ProtoUnpacker::load_keys_from_json(const std::string& path, uint32_t item_proto_key[4], uint32_t mob_proto_key[4])
+bool ProtoUnpacker::load_keys_from_json(const std::string& path, ProtoKey& item_proto_key, ProtoKey& mob_proto_key)
 {
 	std::ifstream f(path);
 	if (!f.is_open())

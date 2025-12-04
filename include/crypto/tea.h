@@ -11,10 +11,12 @@
 #include <cstdint>
 #include <cstddef>
 
+#include <proto_unpacker.h>
+
 namespace tea
 {
 	constexpr uint32_t DELTA = 0x9E3779B9;
 	constexpr uint32_t ROUNDS = 32;
 
-	int decrypt(uint32_t* dest, const uint32_t* src, const uint32_t* key, int size);
+	int decrypt(uint32_t* dest, const uint32_t* src, const ProtoKey& key, int size);
 }

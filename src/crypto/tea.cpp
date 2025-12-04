@@ -29,12 +29,12 @@ namespace tea
 		dest[1] = z;
 	}
 
-	int decrypt(uint32_t* dest, const uint32_t* src, const uint32_t* key, int size)
+	int decrypt(uint32_t* dest, const uint32_t* src, const ProtoKey& key, int size)
 	{
 		int resize = (size % 8 == 0) ? size : size + 8 - (size % 8);
 
 		for (int i = 0; i < (resize >> 3); i++, dest += 2, src += 2)
-			decode(src[1], src[0], key, dest);
+			decode(src[1], src[0], key.data(), dest);
 
 		return resize;
 	}

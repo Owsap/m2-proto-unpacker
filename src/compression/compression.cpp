@@ -38,7 +38,7 @@ CompressionAlgorithm* Compression::find_algorithm(uint32_t fourcc) const
 	return 0;
 }
 
-void Compression::tea_decrypt(uint8_t* dest, const uint8_t* src, uint32_t size, const uint32_t key[4])
+void Compression::tea_decrypt(uint8_t* dest, const uint8_t* src, uint32_t size, const ProtoKey& key)
 {
 	if (!dest || !src || size == 0)
 		return;
@@ -46,7 +46,7 @@ void Compression::tea_decrypt(uint8_t* dest, const uint8_t* src, uint32_t size, 
 	tea::decrypt(reinterpret_cast<uint32_t*>(dest), reinterpret_cast<const uint32_t*>(src), key, static_cast<int>(size));
 }
 
-bool Compression::decrypt_and_decompress(const uint8_t* encrypted, uint32_t encrypted_size, const uint32_t key[4], std::vector<uint8_t>& output)
+bool Compression::decrypt_and_decompress(const uint8_t* encrypted, uint32_t encrypted_size, const ProtoKey& key, std::vector<uint8_t>& output)
 {
 	if (!encrypted)
 	{

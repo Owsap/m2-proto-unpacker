@@ -13,10 +13,16 @@
 
 #include <fstream>
 
-void ProtoLoader::set_keys(const uint32_t item_proto_key[4], const uint32_t mob_proto_key[4])
+ProtoLoader::ProtoLoader()
 {
-	memcpy(m_item_proto_key, item_proto_key, sizeof(m_item_proto_key));
-	memcpy(m_mob_proto_key, mob_proto_key, sizeof(m_mob_proto_key));
+	m_item_proto_key.fill(0);
+	m_mob_proto_key.fill(0);
+}
+
+void ProtoLoader::set_keys(const ProtoKey& item_proto_key, const ProtoKey& mob_proto_key)
+{
+	m_item_proto_key = item_proto_key;
+	m_mob_proto_key = mob_proto_key;
 }
 
 bool ProtoLoader::load_item_proto()
@@ -29,7 +35,7 @@ bool ProtoLoader::load_mob_proto()
 	return load("mob_proto", PROTO_TYPE_MOB, m_mob_proto_key);
 }
 
-bool ProtoLoader::load(const char* filename, uint8_t type, uint32_t* key)
+bool ProtoLoader::load(const char* filename, uint8_t type, const ProtoKey& key)
 {
 	std::ifstream f(filename, std::ios::binary);
 	if (!f)
