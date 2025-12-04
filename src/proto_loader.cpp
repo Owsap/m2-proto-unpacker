@@ -9,9 +9,10 @@
 #include <proto_loader.h>
 
 #include <compression/compression.h>
-#include <spdlog/spdlog.h>
+#include <utils.h>
 
 #include <fstream>
+#include <filesystem>
 
 ProtoLoader::ProtoLoader()
 {
@@ -27,11 +28,21 @@ void ProtoLoader::set_keys(const ProtoKey& item_proto_key, const ProtoKey& mob_p
 
 bool ProtoLoader::load_item_proto(const std::string& path)
 {
+	main_logger()->debug("loading item_proto from: {} ({} bytes)", path, std::filesystem::file_size(path));
+	main_logger()->debug("using TEA key (item_proto): [{}, {}, {}, {}]",
+		m_item_proto_key[0], m_item_proto_key[1],
+		m_item_proto_key[2], m_item_proto_key[3]);
+
 	return load(path, ProtoType::ITEM, m_item_proto_key);
 }
 
 bool ProtoLoader::load_mob_proto(const std::string& path)
 {
+	main_logger()->debug("loading mob_proto from: {} ({} bytes)", path, std::filesystem::file_size(path));
+	main_logger()->debug("using TEA key (mob_proto): [{}, {}, {}, {}]",
+		m_mob_proto_key[0], m_mob_proto_key[1],
+		m_mob_proto_key[2], m_mob_proto_key[3]);
+
 	return load(path, ProtoType::MOB, m_mob_proto_key);
 }
 
@@ -47,12 +58,17 @@ bool ProtoLoader::load(const std::string& path, ProtoType type, const ProtoKey& 
 	uint32_t version = 0;
 	uint32_t stride = 0;
 
+	Compression compression;
+
 	if (type == ProtoType::ITEM)
 	{
 		if (fourcc == MAKEFOURCC('M', 'I', 'P', 'X'))
 		{
 			f.read(reinterpret_cast<char*>(&version), sizeof(version));
 			f.read(reinterpret_cast<char*>(&stride), sizeof(stride));
+
+			main_logger()->debug("reading header: fourcc=0x{:08X} ({}), version={}, stride={}", fourcc,
+				compression.fourcc_to_string(fourcc), version, stride);
 
 			if (version != 1)
 			{
@@ -74,6 +90,8 @@ bool ProtoLoader::load(const std::string& path, ProtoType type, const ProtoKey& 
 	}
 	else if (type == ProtoType::MOB)
 	{
+		main_logger()->debug("reading header: fourcc=0x{:08X} ({})", fourcc, compression.fourcc_to_string(fourcc));
+
 		if (fourcc != MAKEFOURCC('M', 'M', 'P', 'T'))
 		{
 			spdlog::error("invalid proto (wrong FOURCC)");
@@ -96,9 +114,9 @@ bool ProtoLoader::load(const std::string& path, ProtoType type, const ProtoKey& 
 		return false;
 	}
 
-	Compression compression;
-	std::vector<uint8_t> out;
+	main_logger()->debug("entries decoded: {}", count);
 
+	std::vector<uint8_t> out;
 	if (!compression.decrypt_and_decompress(compressed.data(), data_size, key, out))
 		return false;
 

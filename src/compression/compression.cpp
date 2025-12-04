@@ -69,6 +69,9 @@ bool Compression::decrypt_and_decompress(const uint8_t* encrypted, uint32_t encr
 	detail_logger()->info("{:<18} : {}", "size.compressed", compressed_size);
 	detail_logger()->info("{:<18} : {}", "size.encrypted", header->encrypt_size);
 
+	main_logger()->debug("compression ratio: {:.2f}x ({} -> {} bytes)",
+		double(real_size) / compressed_size, compressed_size, real_size);
+
 	if (real_size == 0)
 	{
 		main_logger()->critical("real size is zero — invalid data");
