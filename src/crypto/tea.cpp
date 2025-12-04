@@ -11,24 +11,6 @@
 
 namespace tea
 {
-	void encode(const uint32_t sz, const uint32_t sy, const uint32_t* key, uint32_t* dest)
-	{
-		uint32_t y = sy;
-		uint32_t z = sz;
-		uint32_t sum = 0;
-		uint32_t n = ROUNDS;
-
-		while (n-- > 0)
-		{
-			y += ((z << 4) ^ (z >> 5)) + z ^ (sum + key[sum & 3]);
-			sum += DELTA;
-			z += ((y << 4) ^ (y >> 5)) + y ^ (sum + key[(sum >> 11) & 3]);
-		}
-
-		dest[0] = y;
-		dest[1] = z;
-	}
-
 	void decode(const uint32_t sz, const uint32_t sy, const uint32_t* key, uint32_t* dest)
 	{
 		uint32_t y = sy;
@@ -45,26 +27,6 @@ namespace tea
 
 		dest[0] = y;
 		dest[1] = z;
-	}
-
-	int encrypt(uint32_t* dest, const uint32_t* src, const uint32_t* key, int size)
-	{
-		int resize;
-
-		if (size % 8 != 0)
-		{
-			resize = size + 8 - (size % 8);
-			memset(reinterpret_cast<char*>(const_cast<uint32_t*>(src)) + size, 0, resize - size);
-		}
-		else
-		{
-			resize = size;
-		}
-
-		for (int i = 0; i < (resize >> 3); i++, dest += 2, src += 2)
-			encode(src[1], src[0], key, dest);
-
-		return resize;
 	}
 
 	int decrypt(uint32_t* dest, const uint32_t* src, const uint32_t* key, int size)
