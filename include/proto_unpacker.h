@@ -37,5 +37,4 @@ private:
 	std::string m_item_proto_path;
 	std::string m_mob_proto_path;
 	std::string m_json_path;
-	std::string m_output_dir;
 };

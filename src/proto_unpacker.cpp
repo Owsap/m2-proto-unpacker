@@ -16,7 +16,6 @@ ProtoUnpacker::ProtoUnpacker()
 	: m_item_proto_path("item_proto")
 	, m_mob_proto_path("mob_proto")
 	, m_json_path("tea-keys.json")
-	, m_output_dir("./")
 {
 }
 
@@ -37,7 +36,6 @@ void ProtoUnpacker::run()
 	}
 
 	m_proto_loader.set_keys(item_proto_key, mob_proto_key);
-	m_proto_dumper.set_output_dir(m_output_dir);
 
 	main_logger()->info("loading item_proto...");
 	if (m_proto_loader.load_item_proto(m_item_proto_path))
@@ -125,5 +123,5 @@ void ProtoUnpacker::set_json_path(const std::string& path)
 
 void ProtoUnpacker::set_output_dir(const std::string& dir)
 {
-	m_output_dir = dir;
+	m_proto_dumper.set_output_dir(dir);
 }
