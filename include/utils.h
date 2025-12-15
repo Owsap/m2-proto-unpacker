@@ -18,6 +18,9 @@
 #include <chrono>
 #include <string>
 #include <type_traits>
+#include <cstdint>
+#include <limits>
+#include <memory>
 
 inline std::shared_ptr<spdlog::logger> main_logger()
 {
@@ -101,6 +104,26 @@ namespace util
 
 		return out.empty() ? std::string(empty) : out;
 	}
+
+	template <typename UInt>
+	constexpr UInt checked_unsigned(int64_t v) noexcept
+	{
+		static_assert(std::is_unsigned_v<UInt>, "UInt must be unsigned");
+
+		if (v <= 0)
+			return 0;
+
+		constexpr UInt maxv = std::numeric_limits<UInt>::max();
+
+		if (static_cast<uint64_t>(v) > static_cast<uint64_t>(maxv))
+			return maxv;
+
+		return static_cast<UInt>(v);
+	}
+
+	constexpr uint8_t checked_u8(int64_t v) noexcept { return checked_unsigned<uint8_t>(v); }
+	constexpr uint16_t checked_u16(int64_t v) noexcept { return checked_unsigned<uint16_t>(v); }
+	constexpr uint32_t checked_u32(int64_t v) noexcept { return checked_unsigned<uint32_t>(v); }
 }
 
 class Timer

@@ -29,6 +29,7 @@ respective licenses. Please refer to:
     vendor/snappy/LICENSE
     vendor/spdlog/LICENSE
     vendor/nlohmann/LICENSE
+    vendor/csv-parser/LICENSE
 
 These licenses apply only to their respective components and do not modify
 the licensing of the software created by Owsap.

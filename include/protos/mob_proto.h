@@ -10,6 +10,7 @@
 
 #include <cstdint>
 #include <map>
+#include <unordered_map>
 #include <string>
 
 #include <length.h>
@@ -279,7 +280,32 @@ public:
 	std::string get_race_flags_string() const;
 	std::string get_immune_flags_string() const;
 };
+
+struct MobProtoRef
+{
+	char folder[CHARACTER_FOLDER_MAX_LEN + 1];
+
+	uint32_t gold_min;
+	uint32_t gold_max;
+
+	uint32_t resurrection_vnum;
+	uint32_t polymorph_item_vnum;
+
+	MobSkillLevel skills[MOB_SKILL_MAX_NUM];
+
+	uint8_t berserk_point;
+	uint8_t stoneskin_point;
+	uint8_t godspeed_point;
+	uint8_t deathblow_point;
+	uint8_t revive_point;
+	uint8_t heal_point;
+	uint8_t r_att_speed_p;
+	uint8_t r_cast_speed;
+	uint8_t r_hp_regen;
+
+	float hit_range;
+};
 #pragma pack(pop)
 
-
 using MobProtoMap = std::map<uint32_t, MobProto>;
+using MobProtoRefMap = std::unordered_map<uint32_t, MobProtoRef>;

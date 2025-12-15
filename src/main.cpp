@@ -25,6 +25,9 @@ struct Arguments
 	std::string keys_path;
 	std::string out_dir = ".";
 
+	std::string mob_proto_ref_path;
+	bool overwrite_mob_proto = false;
+
 	bool show_help = false;
 	bool show_version = false;
 	bool verbose = false;
@@ -50,6 +53,16 @@ Arguments parse_arguments(int argc, char** argv)
 
 		else if (a == "--out" && i + 1 < argc)
 			args.out_dir = argv[++i];
+
+		else if (a == "--overwrite-mob-proto")
+		{
+			args.overwrite_mob_proto = true;
+
+			if (i + 1 < argc && argv[i + 1][0] != '-')
+				args.mob_proto_ref_path = argv[++i];
+			else
+				args.mob_proto_ref_path.clear();
+		}
 
 		else if (a == "--help")
 			args.show_help = true;
@@ -130,14 +143,16 @@ void print_help()
 	log->info("  tea-keys.json");
 	log->info("");
 	log->info("Options:");
-	log->info("  --item_proto <path>   Directory or full path to item_proto");
-	log->info("  --mob_proto <path>    Directory or full path to mob_proto");
-	log->info("  --keys <path>         Directory or full path to tea-keys.json");
-	log->info("  --out <path>          Output directory for .txt files");
-	log->info("  --version             Show version");
-	log->info("  --help                Show this help");
-	log->info("  --verbose             Show detailed debug logs");
-	log->info("  --silent              Only show errors (no header)");
+	log->info("  --item_proto [path]           Directory or full path to item_proto");
+	log->info("  --mob_proto [path]            Directory or full path to mob_proto");
+	log->info("  --keys [path]                 Directory or full path to tea-keys.json");
+	log->info("  --out [path]                  Output directory for .txt files");
+	log->info("  --overwrite-mob-proto [path]  Overwrite dumped mob_proto.txt fields using reference table.");
+	log->info("                                If [path] is omitted, 'mob_proto_ref.txt' is used by default.");
+	log->info("  --version                     Show version");
+	log->info("  --help                        Show this help");
+	log->info("  --verbose                     Show detailed debug logs");
+	log->info("  --silent                      Only show errors (no header)");
 }
 
 int main(int argc, char** argv)
@@ -172,6 +187,9 @@ int main(int argc, char** argv)
 
 	if (!args.out_dir.empty())
 		pu.set_output_dir(args.out_dir);
+
+	if (args.overwrite_mob_proto)
+		pu.set_mob_proto_reference(args.mob_proto_ref_path, true);
 
 	Timer timer;
 	pu.run();

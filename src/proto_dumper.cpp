@@ -38,6 +38,12 @@ void ProtoDumper::set_output_dir(const std::string& dir)
 	std::filesystem::create_directories(m_output_dir);
 }
 
+void ProtoDumper::set_mob_proto_reference(MobProtoRefMap ref, bool overwrite)
+{
+	m_mob_proto_ref = std::move(ref);
+	m_overwrite_mob_proto = overwrite;
+}
+
 void ProtoDumper::dump_item_proto(const ItemProtoMap& map)
 {
 	m_item_proto_map = &map;
@@ -271,6 +277,14 @@ void ProtoDumper::dump_mob_table() const
 
 	for (const auto& [vnum, proto] : *m_mob_proto_map)
 	{
+		const MobProtoRef* proto_ref = nullptr;
+		if (m_overwrite_mob_proto)
+		{
+			MobProtoRefMap::const_iterator it = m_mob_proto_ref.find(proto.vnum);
+			if (it != m_mob_proto_ref.end())
+				proto_ref = &it->second;
+		}
+
 		out << proto.vnum
 			<< "\t" << proto.name
 			<< "\t" << proto.get_rank_string()
@@ -278,13 +292,13 @@ void ProtoDumper::dump_mob_table() const
 			<< "\t" << proto.get_battle_type_string()
 			<< "\t" << int(proto.level)
 			<< "\t" << int(proto.scale)
-			<< "\t" /*<< int(proto.size)*/
+			<< "\t" /* << int(proto.size)*/
 			<< "\t" << proto.get_ai_flags_string()
 			<< "\t" << int(proto.mount_capacity)
 			<< "\t" << proto.get_race_flags_string()
 			<< "\t" << proto.get_immune_flags_string()
 			<< "\t" << int(proto.empire)
-			<< "\t" << proto.folder
+			<< "\t" << (proto_ref ? proto_ref->folder : proto.folder)
 			<< "\t" << int(proto.onclick_type)
 			<< "\t" << int(proto.str)
 			<< "\t" << int(proto.dex)
@@ -299,9 +313,9 @@ void ProtoDumper::dump_mob_table() const
 			<< "\t" << proto.max_hp
 			<< "\t" << int(proto.regen_cycle)
 			<< "\t" << int(proto.regen_percent)
-			<< "\t" << proto.gold_min
-			<< "\t" << proto.gold_max
-			<< "\t" << proto.exp 
+			<< "\t" << (proto_ref ? proto_ref->gold_min : proto.gold_min)
+			<< "\t" << (proto_ref ? proto_ref->gold_max : proto.gold_max)
+			<< "\t" << proto.exp
 			<< "\t" << proto.sungma_exp
 			<< "\t" << proto.def
 			<< "\t" << proto.attack_speed
@@ -310,7 +324,7 @@ void ProtoDumper::dump_mob_table() const
 			<< "\t" << proto.aggressive_sight
 			<< "\t" << proto.attack_range
 			<< "\t" << proto.drop_item_vnum
-			<< "\t" << proto.resurrection_vnum;
+			<< "\t" << (proto_ref ? proto_ref->resurrection_vnum : proto.resurrection_vnum);
 
 		for (char val : proto.enchants)
 			out << "\t" << int(val);
@@ -330,23 +344,29 @@ void ProtoDumper::dump_mob_table() const
 		out << "\t" << proto.summon_vnum
 			<< "\t" << proto.drain_sp
 			<< "\t" << proto.monster_color
-			<< "\t" << proto.polymorph_item_vnum;
+			<< "\t" << (proto_ref ? proto_ref->polymorph_item_vnum : proto.polymorph_item_vnum);
 
-		for (const MobSkillLevel& skill : proto.skills)
+		for (int i = 0; i < MOB_SKILL_MAX_NUM; ++i)
+		{
+			const MobSkillLevel& skill = proto_ref ? proto_ref->skills[i] : proto.skills[i];
 			out << "\t" << int(skill.level)
 				<< "\t" << skill.vnum;
+		}
 
-		out << "\t" << int(proto.berserk_point)
-			<< "\t" << int(proto.stoneskin_point)
-			<< "\t" << int(proto.godspeed_point)
-			<< "\t" << int(proto.deathblow_point)
-			<< "\t" << int(proto.revive_point)
-			<< "\t" << int(proto.heal_point)
-			<< "\t" << int(proto.r_att_speed_p)
-			<< "\t" << int(proto.r_cast_speed)
-			<< "\t" << int(proto.r_hp_regen);
+		if (vnum == 6401)
+			printf("%s", fmt::format("monster color {}", proto.monster_color));
 
-		out << "\t" << std::fixed << std::setprecision(1) << proto.hit_range << std::setprecision(0);
+		out << "\t" << int(proto_ref ? proto_ref->berserk_point : proto.berserk_point)
+			<< "\t" << int(proto_ref ? proto_ref->stoneskin_point : proto.stoneskin_point)
+			<< "\t" << int(proto_ref ? proto_ref->godspeed_point : proto.godspeed_point)
+			<< "\t" << int(proto_ref ? proto_ref->deathblow_point : proto.deathblow_point)
+			<< "\t" << int(proto_ref ? proto_ref->revive_point : proto.revive_point)
+			<< "\t" << int(proto_ref ? proto_ref->heal_point : proto.heal_point)
+			<< "\t" << int(proto_ref ? proto_ref->r_att_speed_p : proto.r_att_speed_p)
+			<< "\t" << int(proto_ref ? proto_ref->r_cast_speed : proto.r_cast_speed)
+			<< "\t" << int(proto_ref ? proto_ref->r_hp_regen : proto.r_hp_regen);
+
+		out << "\t" << std::fixed << std::setprecision(1) << (proto_ref ? proto_ref->hit_range : proto.hit_range) << std::setprecision(0);
 		out << "\n";
 	}
 }

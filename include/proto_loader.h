@@ -31,6 +31,8 @@ public:
 	bool load_item_proto(const std::string& path);
 	bool load_mob_proto(const std::string& path);
 
+	MobProtoRefMap load_mob_proto_reference_tsv(const std::string& path) const;
+
 	const ItemProtoMap& get_item_proto_map() const { return m_item_proto_map; }
 	const MobProtoMap& get_mob_proto_map() const { return m_mob_proto_map; }
 

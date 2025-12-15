@@ -10,6 +10,7 @@
 
 #include <compression/compression.h>
 #include <utils.h>
+#include <csv_utils.h>
 
 #include <fstream>
 #include <filesystem>
@@ -44,6 +45,56 @@ bool ProtoLoader::load_mob_proto(const std::string& path)
 		m_mob_proto_key[2], m_mob_proto_key[3]);
 
 	return load(path, ProtoType::MOB, m_mob_proto_key);
+}
+
+MobProtoRefMap ProtoLoader::load_mob_proto_reference_tsv(const std::string& path) const
+{
+	MobProtoRefMap out;
+
+	csv::CSVFormat format;
+	format.delimiter('\t');
+	format.header_row(0);
+
+	csv::CSVReader reader(path, format);
+
+	for (csv::CSVRow& row : reader)
+	{
+		const uint32_t vnum = util::checked_u32(util::csv_i64(row, "Vnum"));
+
+		MobProtoRef ref{};
+
+		const std::string folder = row["Folder"].get<>();
+		std::strncpy(ref.folder, folder.c_str(), CHARACTER_FOLDER_MAX_LEN);
+		ref.folder[CHARACTER_FOLDER_MAX_LEN] = '\0';
+
+		ref.gold_min = util::checked_u32(util::csv_i64(row, "MinGold"));
+		ref.gold_max = util::checked_u32(util::csv_i64(row, "MaxGold"));
+		ref.resurrection_vnum = util::checked_u32(util::csv_i64(row, "ResurrectionVnum"));
+		ref.polymorph_item_vnum = util::checked_u32(util::csv_i64(row, "PolymorphItem"));
+
+		for (int i = 0; i < MOB_SKILL_MAX_NUM; ++i)
+		{
+			ref.skills[i].level = util::checked_u8(util::csv_i64(row, "SkillLevel" + std::to_string(i)));
+			ref.skills[i].vnum = util::checked_u32(util::csv_i64(row, "SkillVnum" + std::to_string(i)));
+		}
+
+		ref.berserk_point = util::checked_u8(util::csv_i64(row, "SpBerserk"));
+		ref.stoneskin_point = util::checked_u8(util::csv_i64(row, "SpStoneSkin"));
+		ref.godspeed_point = util::checked_u8(util::csv_i64(row, "SpGodSpeed"));
+		ref.deathblow_point = util::checked_u8(util::csv_i64(row, "SpDeathBlow"));
+		ref.revive_point = util::checked_u8(util::csv_i64(row, "SpRevive"));
+		ref.heal_point = util::checked_u8(util::csv_i64(row, "SpHeal"));
+
+		ref.r_att_speed_p = util::checked_u8(util::csv_i64(row, "RAtkSpeed"));
+		ref.r_cast_speed = util::checked_u8(util::csv_i64(row, "RCastSpeed"));
+		ref.r_hp_regen = util::checked_u8(util::csv_i64(row, "RHPRegen"));
+
+		ref.hit_range = row["HitRange"].get<float>();
+
+		out.emplace(vnum, ref);
+	}
+
+	return out;
 }
 
 bool ProtoLoader::load(const std::string& path, ProtoType type, const ProtoKey& key)

@@ -94,5 +94,8 @@
     <ClInclude Include="include\crypto\tea.h">
       <Filter>Header Files\Crypto</Filter>
     </ClInclude>
+    <ClInclude Include="include\csv_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
