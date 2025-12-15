@@ -278,7 +278,7 @@ void ProtoDumper::dump_mob_table() const
 			<< "\t" << proto.get_battle_type_string()
 			<< "\t" << int(proto.level)
 			<< "\t" << int(proto.scale)
-			/*<< "\t" << int(proto.size)*/
+			<< "\t" /*<< int(proto.size)*/
 			<< "\t" << proto.get_ai_flags_string()
 			<< "\t" << int(proto.mount_capacity)
 			<< "\t" << proto.get_race_flags_string()
