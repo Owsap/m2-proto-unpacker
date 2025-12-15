@@ -8,10 +8,11 @@
 
 #pragma once
 
-static constexpr std::string_view VERSION_STRING = "1.1.2";
+static constexpr std::string_view VERSION_STRING = "1.1.3";
 static constexpr std::string_view PROTO_VERSION_STRING = "25.2.12";
 
 /*
+* [PATCH] Correct `ITEM_SPECIAL_DS` subtypes. - v1.1.3
 * [PATCH] Optimize dump functions for performance and readability. - v1.1.2
 * [PATCH] Add additional verbose logging for proto loading and compression. - v1.1.1
 * [MINOR] Add CLI args for paths, verbosity, silent mode, help and version. - v1.1.0

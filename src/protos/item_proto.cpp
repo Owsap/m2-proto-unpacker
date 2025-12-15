@@ -133,7 +133,8 @@ std::string ItemProto::get_subtype_string() const
 			break;
 
 		case ItemType::ITEM_SPECIAL_DS:
-			return "0";
+			sv = util::enum_to_sv(static_cast<DragonSoulSubTypes>(subtype));
+			break;
 
 		case ItemType::ITEM_EXTRACT:
 			sv = util::enum_to_sv(static_cast<ExtractSubTypes>(subtype));
