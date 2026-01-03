@@ -928,7 +928,7 @@ struct ItemAddonRange
 	uint32_t max;
 };
 
-struct ItemProto
+struct ItemTable
 {
 	uint32_t vnum;
 	uint32_t vnum_range;
@@ -953,9 +953,6 @@ struct ItemProto
 	ItemApply applies[ITEM_APPLY_MAX_NUM];
 	long values[ITEM_VALUES_MAX_NUM];
 	long sockets[ITEM_SOCKET_MAX_NUM];
-
-	uint32_t unknown_data2;
-	uint32_t unknown_data3;
 
 	uint32_t refined_vnum;
 	uint16_t refine_set;
@@ -988,4 +985,4 @@ public:
 };
 #pragma pack(pop)
 
-using ItemProtoMap = std::map<uint32_t, ItemProto>;
+using ItemTableMap = std::map<uint32_t, ItemTable>;

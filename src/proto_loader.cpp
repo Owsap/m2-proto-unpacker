@@ -47,9 +47,9 @@ bool ProtoLoader::load_mob_proto(const std::string& path)
 	return load(path, ProtoType::MOB, m_mob_proto_key);
 }
 
-MobProtoRefMap ProtoLoader::load_mob_proto_reference_tsv(const std::string& path) const
+MobTableRefMap ProtoLoader::load_mob_proto_reference_tsv(const std::string& path) const
 {
-	MobProtoRefMap out;
+	MobTableRefMap out;
 
 	csv::CSVFormat format;
 	format.delimiter('\t');
@@ -61,7 +61,7 @@ MobProtoRefMap ProtoLoader::load_mob_proto_reference_tsv(const std::string& path
 	{
 		const uint32_t vnum = util::checked_u32(util::csv_i64(row, "Vnum"));
 
-		MobProtoRef ref{};
+		MobTableRef ref{};
 
 		const std::string folder = row["Folder"].get<>();
 		std::strncpy(ref.folder, folder.c_str(), CHARACTER_FOLDER_MAX_LEN);
@@ -127,9 +127,9 @@ bool ProtoLoader::load(const std::string& path, ProtoType type, const ProtoKey& 
 				return false;
 			}
 
-			if (stride != sizeof(ItemProto))
+			if (stride != sizeof(ItemTable))
 			{
-				spdlog::error("stride mismatch");
+				spdlog::error("stride {} mismatch != {}", stride, sizeof(ItemTable));
 				return false;
 			}
 		}
@@ -173,21 +173,21 @@ bool ProtoLoader::load(const std::string& path, ProtoType type, const ProtoKey& 
 
 	if (type == ProtoType::ITEM)
 	{
-		uint32_t expected_size = count * sizeof(ItemProto);
+		uint32_t expected_size = count * sizeof(ItemTable);
 		if (out.size() != expected_size)
 			return false;
 
-		ItemProto* ptr = reinterpret_cast<ItemProto*>(out.data());
+		ItemTable* ptr = reinterpret_cast<ItemTable*>(out.data());
 		for (uint32_t i = 0; i < count; ++i)
 			m_item_proto_map.emplace(ptr[i].vnum, ptr[i]);
 	}
 	else if (type == ProtoType::MOB)
 	{
-		uint32_t expected_size = count * sizeof(MobProto);
+		uint32_t expected_size = count * sizeof(MobTable);
 		if (out.size() != expected_size)
 			return false;
 
-		MobProto* ptr = reinterpret_cast<MobProto*>(out.data());
+		MobTable* ptr = reinterpret_cast<MobTable*>(out.data());
 		for (uint32_t i = 0; i < count; ++i)
 			m_mob_proto_map.emplace(ptr[i].vnum, ptr[i]);
 	}
