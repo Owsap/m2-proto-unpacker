@@ -31,16 +31,16 @@ public:
 	bool load_item_proto(const std::string& path);
 	bool load_mob_proto(const std::string& path);
 
-	MobProtoRefMap load_mob_proto_reference_tsv(const std::string& path) const;
+	MobTableRefMap load_mob_proto_reference_tsv(const std::string& path) const;
 
-	const ItemProtoMap& get_item_proto_map() const { return m_item_proto_map; }
-	const MobProtoMap& get_mob_proto_map() const { return m_mob_proto_map; }
+	const ItemTableMap& get_item_proto_map() const { return m_item_proto_map; }
+	const MobTableMap& get_mob_proto_map() const { return m_mob_proto_map; }
 
 private:
 	bool load(const std::string& path, ProtoType type, const ProtoKey& key);
 
-	ItemProtoMap m_item_proto_map;
-	MobProtoMap m_mob_proto_map;
+	ItemTableMap m_item_proto_map;
+	MobTableMap m_mob_proto_map;
 
 	ProtoKey m_item_proto_key;
 	ProtoKey m_mob_proto_key;

@@ -38,13 +38,13 @@ void ProtoDumper::set_output_dir(const std::string& dir)
 	std::filesystem::create_directories(m_output_dir);
 }
 
-void ProtoDumper::set_mob_proto_reference(MobProtoRefMap ref, bool overwrite)
+void ProtoDumper::set_mob_proto_reference(MobTableRefMap ref, bool overwrite)
 {
 	m_mob_proto_ref = std::move(ref);
 	m_overwrite_mob_proto = overwrite;
 }
 
-void ProtoDumper::dump_item_proto(const ItemProtoMap& map)
+void ProtoDumper::dump_item_proto(const ItemTableMap& map)
 {
 	m_item_proto_map = &map;
 
@@ -152,7 +152,7 @@ void ProtoDumper::dump_item_table() const
 	}
 }
 
-void ProtoDumper::dump_mob_proto(const MobProtoMap& map)
+void ProtoDumper::dump_mob_proto(const MobTableMap& map)
 {
 	m_mob_proto_map = &map;
 
@@ -277,10 +277,10 @@ void ProtoDumper::dump_mob_table() const
 
 	for (const auto& [vnum, proto] : *m_mob_proto_map)
 	{
-		const MobProtoRef* proto_ref = nullptr;
+		const MobTableRef* proto_ref = nullptr;
 		if (m_overwrite_mob_proto)
 		{
-			MobProtoRefMap::const_iterator it = m_mob_proto_ref.find(proto.vnum);
+			MobTableRefMap::const_iterator it = m_mob_proto_ref.find(proto.vnum);
 			if (it != m_mob_proto_ref.end())
 				proto_ref = &it->second;
 		}

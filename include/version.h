@@ -8,10 +8,11 @@
 
 #pragma once
 
-static constexpr std::string_view VERSION_STRING = "1.2.0";
-static constexpr std::string_view PROTO_VERSION_STRING = "25.2.12";
+static constexpr std::string_view VERSION_STRING = "1.2.1";
+static constexpr std::string_view PROTO_VERSION_STRING = "25.2.15";
 
 /*
+* [PATCH] Correct ApplyTypes & TItemTable structure, ITEM_VALUES_MAX_NUM = 12. - v1.2.1
 * [MINOR] Add mob_proto reference overwrite support via TSV (--overwrite-mob-proto). - v1.2.0
 * [PATCH] Fixed mob_proto dump. - v1.1.4
 * [PATCH] Fixed `ITEM_SPECIAL_DS` subtypes. - v1.1.3

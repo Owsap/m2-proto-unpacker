@@ -903,6 +903,13 @@ enum class ApplyType
 	APPLY_BLOCK_PENETRATE_PCT,
 	APPLY_ATTBONUS_MYSTERY_DUNGEON,
 	APPLY_ATTBONUS_DRAGON,
+	APPLY_UNKNOWN_314,
+	APPLY_UNKNOWN_315,
+	APPLY_UNKNOWN_316,
+	APPLY_UNKNOWN_317,
+	APPLY_UNKNOWN_318,
+	APPLY_UNKNOWN_319,
+	APPLY_UNKNOWN_320,
 	APPLY_CONFUSION_TO_MOB,
 	APPLY_ATTBONUS_MOON,
 	MAX_APPLY_NUM
@@ -928,7 +935,7 @@ struct ItemAddonRange
 	uint32_t max;
 };
 
-struct ItemProto
+struct ItemTable
 {
 	uint32_t vnum;
 	uint32_t vnum_range;
@@ -953,9 +960,6 @@ struct ItemProto
 	ItemApply applies[ITEM_APPLY_MAX_NUM];
 	long values[ITEM_VALUES_MAX_NUM];
 	long sockets[ITEM_SOCKET_MAX_NUM];
-
-	uint32_t unknown_data2;
-	uint32_t unknown_data3;
 
 	uint32_t refined_vnum;
 	uint16_t refine_set;
@@ -988,4 +992,4 @@ public:
 };
 #pragma pack(pop)
 
-using ItemProtoMap = std::map<uint32_t, ItemProto>;
+using ItemTableMap = std::map<uint32_t, ItemTable>;

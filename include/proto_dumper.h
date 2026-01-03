@@ -15,10 +15,10 @@ class ProtoDumper
 {
 public:
 	void set_output_dir(const std::string& dir);
-	void set_mob_proto_reference(MobProtoRefMap ref, bool overwrite);
+	void set_mob_proto_reference(MobTableRefMap ref, bool overwrite);
 
-	void dump_item_proto(const ItemProtoMap& map);
-	void dump_mob_proto(const MobProtoMap& map);
+	void dump_item_proto(const ItemTableMap& map);
+	void dump_mob_proto(const MobTableMap& map);
 
 private:
 	std::ofstream open_output_file(const std::string& filename) const;
@@ -32,9 +32,9 @@ private:
 private:
 	std::string m_output_dir = "./";
 
-	MobProtoRefMap m_mob_proto_ref{};
+	MobTableRefMap m_mob_proto_ref{};
 	bool m_overwrite_mob_proto = false;
 
-	const ItemProtoMap* m_item_proto_map = nullptr;
-	const MobProtoMap* m_mob_proto_map = nullptr;
+	const ItemTableMap* m_item_proto_map = nullptr;
+	const MobTableMap* m_mob_proto_map = nullptr;
 };

@@ -182,7 +182,7 @@ struct MobSkillLevel
 	uint8_t level;
 };
 
-struct MobProto
+struct MobTable
 {
 	uint32_t vnum;
 
@@ -281,7 +281,7 @@ public:
 	std::string get_immune_flags_string() const;
 };
 
-struct MobProtoRef
+struct MobTableRef
 {
 	char folder[CHARACTER_FOLDER_MAX_LEN + 1];
 
@@ -307,5 +307,5 @@ struct MobProtoRef
 };
 #pragma pack(pop)
 
-using MobProtoMap = std::map<uint32_t, MobProto>;
-using MobProtoRefMap = std::unordered_map<uint32_t, MobProtoRef>;
+using MobTableMap = std::map<uint32_t, MobTable>;
+using MobTableRefMap = std::unordered_map<uint32_t, MobTableRef>;

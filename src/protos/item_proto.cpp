@@ -9,7 +9,7 @@
 #include <protos/item_proto.h>
 #include <utils.h>
 
-std::string ItemProto::get_type_string() const
+std::string ItemTable::get_type_string() const
 {
 	std::string_view sv = util::enum_to_sv(static_cast<ItemType>(type));
 	if (!sv.empty())
@@ -18,7 +18,7 @@ std::string ItemProto::get_type_string() const
 	return "UNK_TYPE_" + std::to_string(type);
 }
 
-std::string ItemProto::get_subtype_string() const
+std::string ItemTable::get_subtype_string() const
 {
 	std::string_view sv;
 
@@ -187,27 +187,27 @@ std::string ItemProto::get_subtype_string() const
 	return "UNK_SUBTYPE_" + std::to_string(subtype);
 }
 
-std::string ItemProto::get_anti_flags_string() const
+std::string ItemTable::get_anti_flags_string() const
 {
 	return util::flags_to_string<ItemAntiFlag>(anti_flags, "UNK_ANTI_FLAG_", " | ", "NONE");
 }
 
-std::string ItemProto::get_flags_string() const
+std::string ItemTable::get_flags_string() const
 {
 	return util::flags_to_string<ItemFlag>(flags, "UNK_FLAG_", " | ", "NONE");
 }
 
-std::string ItemProto::get_wear_flags_string() const
+std::string ItemTable::get_wear_flags_string() const
 {
 	return util::flags_to_string<ItemWearFlag>(wear_flags, "UNK_WEAR_FLAG_", " | ", "NONE");
 }
 
-std::string ItemProto::get_immune_flags_string() const
+std::string ItemTable::get_immune_flags_string() const
 {
 	return "NONE"; // immune flags not used.
 }
 
-std::string ItemProto::get_limit_type_string(uint8_t index) const
+std::string ItemTable::get_limit_type_string(uint8_t index) const
 {
 	if (index >= ITEM_LIMIT_MAX_NUM)
 		return "INVALID";
@@ -222,7 +222,7 @@ std::string ItemProto::get_limit_type_string(uint8_t index) const
 	return "UNK_LIMIT_TYPE_" + std::to_string(raw_value);
 }
 
-long ItemProto::get_limit_type_value(uint8_t index) const
+long ItemTable::get_limit_type_value(uint8_t index) const
 {
 	if (index >= ITEM_LIMIT_MAX_NUM)
 		return 0;
@@ -230,7 +230,7 @@ long ItemProto::get_limit_type_value(uint8_t index) const
 	return limits[index].value;
 }
 
-std::string ItemProto::get_apply_type_string(uint8_t index) const
+std::string ItemTable::get_apply_type_string(uint8_t index) const
 {
 	if (index >= ITEM_APPLY_MAX_NUM)
 		return "INVALID";
@@ -245,7 +245,7 @@ std::string ItemProto::get_apply_type_string(uint8_t index) const
 	return "UNK_APPLY_TYPE_" + std::to_string(raw_value);
 }
 
-long ItemProto::get_apply_type_value(uint8_t index) const
+long ItemTable::get_apply_type_value(uint8_t index) const
 {
 	if (index >= ITEM_APPLY_MAX_NUM)
 		return 0;
@@ -281,7 +281,7 @@ static constexpr ItemAddonRange addon_type_vnum_range[] =
 	{ 7300, 7309 },
 };
 
-int8_t ItemProto::has_addon_type() const
+int8_t ItemTable::has_addon_type() const
 {
 	for (const auto& range : addon_type_vnum_range)
 	{

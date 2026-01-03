@@ -60,7 +60,7 @@ void ProtoUnpacker::run()
 		{
 			main_logger()->info("loading mob proto reference: {}", m_mob_proto_ref_path);
 
-			MobProtoRefMap ref = m_proto_loader.load_mob_proto_reference_tsv(m_mob_proto_ref_path);
+			MobTableRefMap ref = m_proto_loader.load_mob_proto_reference_tsv(m_mob_proto_ref_path);
 			m_proto_dumper.set_mob_proto_reference(std::move(ref), m_mob_proto_overwrite);
 		}
 
