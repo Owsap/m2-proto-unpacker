@@ -56,6 +56,9 @@
     <ClCompile Include="src\crypto\tea.cpp">
       <Filter>Source Files\Crypto</Filter>
     </ClCompile>
+    <ClCompile Include="src\compression\lzo_algorithm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\length.h">
@@ -95,6 +98,9 @@
       <Filter>Header Files\Crypto</Filter>
     </ClInclude>
     <ClInclude Include="include\csv_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\compression\lzo_algorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

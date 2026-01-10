@@ -55,8 +55,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(SolutionDir)binary\debug\snappy\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>snappy.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)binary\debug\snappy\;$(SolutionDir)binary\debug\lzo\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>snappy.lib;lzo.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -73,13 +73,14 @@
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalLibraryDirectories>$(SolutionDir)binary\release\snappy\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>snappy.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)binary\release\snappy\;$(SolutionDir)binary\release\lzo\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>snappy.lib;lzo.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <!-- SOURCE FILES -->
   <ItemGroup>
     <ClCompile Include="src\compression\compression.cpp" />
+    <ClCompile Include="src\compression\lzo_algorithm.cpp" />
     <ClCompile Include="src\compression\snappy_algorithm.cpp" />
     <ClCompile Include="src\crypto\tea.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -93,6 +94,7 @@
   <ItemGroup>
     <ClInclude Include="include\compression\compression.h" />
     <ClInclude Include="include\compression\compression_algorithm.h" />
+    <ClInclude Include="include\compression\lzo_algorithm.h" />
     <ClInclude Include="include\compression\snappy_algorithm.h" />
     <ClInclude Include="include\crypto\tea.h" />
     <ClInclude Include="include\csv_utils.h" />

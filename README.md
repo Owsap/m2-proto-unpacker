@@ -1,13 +1,13 @@
 ﻿# M2 Proto Unpacker
 M2 Proto Unpacker is a standalone tool that loads binary **item_proto** and **mob_proto** files, optionally decrypts them using **[TEA]** (*Tiny Encryption Algorithm*),
-decompresses them with the **[Snappy]** codec, parses their internal structures, and exports the decoded data into `.txt` tables.
+decompresses them with **[Snappy]** or **[LZO]** codec, parses their internal structures, and exports the decoded data into `.txt` tables.
 
 ---
 
 ## Features
 - Load and decode `item_proto` and `mob_proto` binary files
 - Optional **[TEA]** decryption via `tea-keys.json`
-- **[Snappy]** decompression
+- **[Snappy]** and **[LZO]** decompression
 - Export decoded data to `.txt` tables
 - Optional `mob_proto` overwrite system using a reference **[TSV]** (*tab-separated values*) file
 - Flexible **[CLI]** with verbosity, silent mode, and custom paths
@@ -29,7 +29,8 @@ Example template:
 ---
 
 ## Supported Decompressions
-- Snappy
+- **[Snappy]**
+- **[LZO]**
 
 ---
 
@@ -100,6 +101,7 @@ tea-keys.json
 ## Third-Party Libraries (included in vendor/)
 - [neargye/magic_enum](https://github.com/Neargye/magic_enum)
 - [google/snappy](https://github.com/google/snappy)
+- [google/lzo](https://www.oberhumer.com/opensource/lzo/)
 - [gabime/spdlog](https://github.com/gabime/spdlog)
 - [nlohmann/json](https://github.com/nlohmann/json)
 - [vincentlaucsb/csv-parser](https://github.com/vincentlaucsb/csv-parser)
@@ -118,5 +120,6 @@ Reverse-engineered file formats are used purely for interoperability.
 
 [TEA]: https://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm
 [Snappy]: https://en.wikipedia.org/wiki/Snappy_(compression)
+[LZO]: https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Oberhumer
 [CLI]: https://en.wikipedia.org/wiki/Command-line_interface
 [TSV]: https://en.wikipedia.org/wiki/Tab-separated_values

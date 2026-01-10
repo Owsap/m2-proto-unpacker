@@ -175,7 +175,10 @@ bool ProtoLoader::load(const std::string& path, ProtoType type, const ProtoKey& 
 	{
 		uint32_t expected_size = count * sizeof(ItemTable);
 		if (out.size() != expected_size)
+		{
+			main_logger()->debug("item proto expected size mismatch {} != {}", out.size(), expected_size);
 			return false;
+		}
 
 		ItemTable* ptr = reinterpret_cast<ItemTable*>(out.data());
 		for (uint32_t i = 0; i < count; ++i)
@@ -185,7 +188,10 @@ bool ProtoLoader::load(const std::string& path, ProtoType type, const ProtoKey& 
 	{
 		uint32_t expected_size = count * sizeof(MobTable);
 		if (out.size() != expected_size)
+		{
+			main_logger()->debug("mob proto expected size mismatch {} != {}", out.size(), expected_size);
 			return false;
+		}
 
 		MobTable* ptr = reinterpret_cast<MobTable*>(out.data());
 		for (uint32_t i = 0; i < count; ++i)

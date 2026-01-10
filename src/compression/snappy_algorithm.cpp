@@ -9,8 +9,6 @@
 #include <compression/compression.h>
 #include <compression/snappy_algorithm.h>
 
-#include <snappy/snappy-c.h>
-
 bool SnappyAlgorithm::decompress(const uint8_t* input, uint32_t compressed_size, std::vector<uint8_t>& output, uint32_t expected_size)
 {
 	output.resize(expected_size);

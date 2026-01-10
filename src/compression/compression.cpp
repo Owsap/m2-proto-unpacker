@@ -8,6 +8,7 @@
 
 #include <compression/compression.h>
 #include <compression/snappy_algorithm.h>
+#include <compression/lzo_algorithm.h>
 
 #include <crypto/tea.h>
 #include <utils.h>
@@ -15,6 +16,11 @@
 Compression::Compression()
 {
 	register_algorithm(new SnappyAlgorithm());
+
+	if (lzo_init() == LZO_E_OK)
+		register_algorithm(new LZOAlgorithm());
+	else
+		main_logger()->critical("lzo_init() failed");
 }
 
 Compression::~Compression()
@@ -35,7 +41,7 @@ CompressionAlgorithm* Compression::find_algorithm(uint32_t fourcc) const
 		if (m_algorithms[i]->get_fourcc() == fourcc)
 			return m_algorithms[i];
 	}
-	return 0;
+	return nullptr;
 }
 
 void Compression::tea_decrypt(uint8_t* dest, const uint8_t* src, uint32_t size, const ProtoKey& key)
@@ -117,6 +123,8 @@ bool Compression::decrypt_and_decompress(const uint8_t* encrypted, uint32_t encr
 
 	if (FOURCC_SNAPPY == algo->get_fourcc())
 		detail_logger()->info("{:<18} : Snappy", "algorithm");
+	else if (FOURCC_LZO == algo->get_fourcc())
+		detail_logger()->info("{:<18} : LZO", "algorithm");
 	else
 		detail_logger()->info("{:<18} : Unknown", "algorithm");
 

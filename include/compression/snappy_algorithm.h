@@ -12,6 +12,8 @@
 #include <vector>
 #include <compression/compression_algorithm.h>
 
+#include <snappy/snappy-c.h>
+
 #define FOURCC_SNAPPY MAKEFOURCC('M','C','S','P')
 
 class SnappyAlgorithm : public CompressionAlgorithm

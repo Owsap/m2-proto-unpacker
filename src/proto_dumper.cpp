@@ -353,9 +353,6 @@ void ProtoDumper::dump_mob_table() const
 				<< "\t" << skill.vnum;
 		}
 
-		if (vnum == 6401)
-			printf("%s", fmt::format("monster color {}", proto.monster_color));
-
 		out << "\t" << int(proto_ref ? proto_ref->berserk_point : proto.berserk_point)
 			<< "\t" << int(proto_ref ? proto_ref->stoneskin_point : proto.stoneskin_point)
 			<< "\t" << int(proto_ref ? proto_ref->godspeed_point : proto.godspeed_point)
