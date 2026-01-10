@@ -452,7 +452,7 @@ enum class ItemAntiFlag
 	ANTI_PETFEED = 25,
 	ANTI_APPLY = 26,
 	ANTI_ACCE = 27,
-	ANTI_MAIL = 28,
+	ANTI_MAIL = 28
 };
 
 enum class ItemFlag
@@ -465,7 +465,7 @@ enum class ItemFlag
 	ITEM_IRREMOVABLE = 5,
 	CONFIRM_WHEN_USE = 6,
 	LOG = 7,
-	ITEM_APPLICABLE = 8,
+	ITEM_APPLICABLE = 8
 };
 
 enum class ItemWearFlag
@@ -925,7 +925,11 @@ struct ItemLimit
 
 struct ItemApply
 {
+#if SCHEMA_VER_AT_LEAST(19, 2, 0)
 	uint16_t type;
+#else
+	uint8_t type;
+#endif
 	long value;
 };
 
@@ -940,8 +944,8 @@ struct ItemTable
 	uint32_t vnum;
 	uint32_t vnum_range;
 
-	char name[CHARACTER_NAME_MAX_LEN + 1];
-	char locale_name[CHARACTER_NAME_MAX_LEN + 1];
+	char name[ITEM_NAME_MAX_LEN + 1];
+	char locale_name[ITEM_NAME_MAX_LEN + 1];
 
 	uint8_t type;
 	uint8_t subtype;
@@ -963,15 +967,19 @@ struct ItemTable
 
 	uint32_t refined_vnum;
 	uint16_t refine_set;
+#if SCHEMA_VER_AT_LEAST(19, 2, 0)
 	uint32_t material67;
+#endif
 
 	uint8_t alter_to_magic_item_pct;
 	uint8_t specular;
 	uint8_t gain_socket_pct;
 	//uint8_t addon_type;
 
+#if SCHEMA_VER_AT_LEAST(16, 0, 0)
 	uint8_t mask_type;
 	uint8_t mask_subtype;
+#endif
 
 public:
 	std::string get_type_string() const;

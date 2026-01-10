@@ -83,13 +83,17 @@ MobTableRefMap ProtoLoader::load_mob_proto_reference_tsv(const std::string& path
 		ref.godspeed_point = util::checked_u8(util::csv_i64(row, "SpGodSpeed"));
 		ref.deathblow_point = util::checked_u8(util::csv_i64(row, "SpDeathBlow"));
 		ref.revive_point = util::checked_u8(util::csv_i64(row, "SpRevive"));
-		ref.heal_point = util::checked_u8(util::csv_i64(row, "SpHeal"));
 
-		ref.r_att_speed_p = util::checked_u8(util::csv_i64(row, "RAtkSpeed"));
-		ref.r_cast_speed = util::checked_u8(util::csv_i64(row, "RCastSpeed"));
-		ref.r_hp_regen = util::checked_u8(util::csv_i64(row, "RHPRegen"));
+#if SCHEMA_VER_AT_LEAST(17, 5, 0)
+		ref.healer_point = util::checked_u8(util::csv_i64(row, "SpHealer"));
+		ref.reduce_att_speed_point = util::checked_u8(util::csv_i64(row, "SpRAtkSpeed"));
+		ref.reduce_cast_speed_point = util::checked_u8(util::csv_i64(row, "SpRCastSpeed"));
+		ref.reduce_hp_regen_point = util::checked_u8(util::csv_i64(row, "SpRHpRegen"));
+#endif
 
+#if SCHEMA_VER_AT_LEAST(19, 5, 0)
 		ref.hit_range = row["HitRange"].get<float>();
+#endif
 
 		out.emplace(vnum, ref);
 	}
