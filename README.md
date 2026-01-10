@@ -92,6 +92,30 @@ tea-keys.json
 
 ---
 
+## Schema Version Selection
+The internal structure of `item_proto` and `mob_proto` files has changed over time.
+To correctly parse data from different versions, the tool uses **version–aware structs and enums**.
+
+### How It Works
+Each supported proto version maps to a specific schema layout in the source code.
+The active schema version determines:
+- Which fields are present
+- Field ordering and sizes
+- Conditional fields introduced in later versions
+
+### Where to Change the Schema Version
+The proto schema version is defined at **compile time** in the `version.h` header:
+
+```cpp
+// ex) schema version 25.2.15
+#define SCHEMA_VER_MAJOR 25
+#define SCHEMA_VER_MINOR 2
+#define SCHEMA_VER_PATCH 15
+```
+These values are combined internally to select the correct layout.
+
+---
+
 ## Requirements
 - C++20 Compiler
 - MSVC (Visual Studio)

@@ -84,28 +84,30 @@ void ProtoDumper::dump_item_table() const
 		<< "\t" << "ShopSellPrice"
 		<< "\t" << "RefinedVnum"
 		<< "\t" << "RefineSet"
+#if SCHEMA_VER_AT_LEAST(19, 2, 0)
 		<< "\t" << "67AttrMaterial"
+#endif
 		<< "\t" << "AlterToMagicItemPercent";
 
-		for (uint8_t i = 0; i < ITEM_LIMIT_MAX_NUM; ++i)
-		{
-			out << "\t" << "LimitType" << int(i)
-				<< "\t" << "LimitValue" << int(i);
-		}
+	for (uint8_t i = 0; i < ITEM_LIMIT_MAX_NUM; ++i)
+	{
+		out << "\t" << "LimitType" << int(i)
+			<< "\t" << "LimitValue" << int(i);
+	}
 
-		for (uint8_t i = 0; i < ITEM_APPLY_MAX_NUM; ++i)
-		{
-			out << "\t" << "ApplyType" << int(i)
-				<< "\t" << "ApplyValue" << int(i);
-		}
+	for (uint8_t i = 0; i < ITEM_APPLY_MAX_NUM; ++i)
+	{
+		out << "\t" << "ApplyType" << int(i)
+			<< "\t" << "ApplyValue" << int(i);
+	}
 
-		for (uint8_t i = 0; i < ITEM_VALUES_MAX_NUM; ++i)
-			out << "\t" << "Value" << int(i);
+	for (uint8_t i = 0; i < ITEM_VALUES_MAX_NUM; ++i)
+		out << "\t" << "Value" << int(i);
 
-		out << "\t" << "Specular"
-			<< "\t" << "GainSocketPercent"
-			<< "\t" << "AddonType";
-		out << "\n";
+	out << "\t" << "Specular"
+		<< "\t" << "GainSocketPercent"
+		<< "\t" << "AddonType";
+	out << "\n";
 
 	for (const auto& [vnum, proto] : *m_item_proto_map)
 	{
@@ -126,7 +128,9 @@ void ProtoDumper::dump_item_table() const
 			<< "\t" << proto.shop_sell_price
 			<< "\t" << proto.refined_vnum
 			<< "\t" << proto.refine_set
+#if SCHEMA_VER_AT_LEAST(19, 2, 0)
 			<< "\t" << proto.material67
+#endif
 			<< "\t" << int(proto.alter_to_magic_item_pct);
 
 		for (uint8_t i = 0; i < ITEM_LIMIT_MAX_NUM; ++i)
@@ -185,7 +189,9 @@ void ProtoDumper::dump_mob_table() const
 		<< "\t" << "Type"
 		<< "\t" << "BattleType"
 		<< "\t" << "Level"
+#if SCHEMA_VER_AT_LEAST(15, 5, 0)
 		<< "\t" << "ScalePct"
+#endif
 		<< "\t" << "Size"
 		<< "\t" << "AIFlags"
 		<< "\t" << "MountCapacity"
@@ -198,10 +204,12 @@ void ProtoDumper::dump_mob_table() const
 		<< "\t" << "Dx"
 		<< "\t" << "Ht"
 		<< "\t" << "Iq"
+#if SCHEMA_VER_AT_LEAST(20, 4, 0)
 		<< "\t" << "SungMaSt"
 		<< "\t" << "SungMaDx"
 		<< "\t" << "SungMaHt"
 		<< "\t" << "SungMaIq"
+#endif
 		<< "\t" << "MinDamage"
 		<< "\t" << "MaxDamage"
 		<< "\t" << "MaxHp"
@@ -210,7 +218,9 @@ void ProtoDumper::dump_mob_table() const
 		<< "\t" << "MinGold"
 		<< "\t" << "MaxGold"
 		<< "\t" << "Exp"
+#if SCHEMA_VER_AT_LEAST(20, 4, 0)
 		<< "\t" << "SungMaExp"
+#endif
 		<< "\t" << "Def"
 		<< "\t" << "AttackSpeed"
 		<< "\t" << "MoveSpeed"
@@ -225,20 +235,27 @@ void ProtoDumper::dump_mob_table() const
 		<< "\t" << "EnchantStun"
 		<< "\t" << "EnchantCritical"
 		<< "\t" << "EnchantPenetrate"
+#if SCHEMA_VER_AT_LEAST(18, 3, 0)
 		<< "\t" << "ResistFist"
+#endif
 		<< "\t" << "ResistSword"
 		<< "\t" << "ResistTwoHanded"
 		<< "\t" << "ResistDagger"
 		<< "\t" << "ResistBell"
 		<< "\t" << "ResistFan"
 		<< "\t" << "ResistBow"
+#if SCHEMA_VER_AT_LEAST(14, 11, 0)
 		<< "\t" << "ResistClaw"
+#endif
 		<< "\t" << "ResistFire"
 		<< "\t" << "ResistElect"
 		<< "\t" << "ResistMagic"
 		<< "\t" << "ResistWind"
 		<< "\t" << "ResistPoison"
+#if SCHEMA_VER_AT_LEAST(14, 11, 0)
 		<< "\t" << "ResistBleeding"
+#endif
+#if SCHEMA_VER_AT_LEAST(17, 5, 0)
 		<< "\t" << "AttElec"
 		<< "\t" << "AttFire"
 		<< "\t" << "AttIce"
@@ -248,6 +265,7 @@ void ProtoDumper::dump_mob_table() const
 		<< "\t" << "ResistDark"
 		<< "\t" << "ResistIce"
 		<< "\t" << "ResistEarth"
+#endif
 		<< "\t" << "DamMultiply"
 		<< "\t" << "SummonVnum"
 		<< "\t" << "DrainSp"
@@ -268,12 +286,16 @@ void ProtoDumper::dump_mob_table() const
 		<< "\t" << "SpGodSpeed"
 		<< "\t" << "SpDeathBlow"
 		<< "\t" << "SpRevive"
-		<< "\t" << "SpHeal"
-		<< "\t" << "RAtkSpeed"
-		<< "\t" << "RCastSpeed"
-		<< "\t" << "RHPRegen"
-		<< "\t" << "HitRange";
-	out << "\n";
+#if SCHEMA_VER_AT_LEAST(17, 5, 0)
+		<< "\t" << "SpHealer"
+		<< "\t" << "SpRAtkSpeed"
+		<< "\t" << "SpRCastSpeed"
+		<< "\t" << "SpRHpRegen"
+#endif
+#if SCHEMA_VER_AT_LEAST(19, 5, 0)
+		<< "\t" << "HitRange"
+#endif
+		; out << "\n";
 
 	for (const auto& [vnum, proto] : *m_mob_proto_map)
 	{
@@ -291,7 +313,9 @@ void ProtoDumper::dump_mob_table() const
 			<< "\t" << proto.get_type_string()
 			<< "\t" << proto.get_battle_type_string()
 			<< "\t" << int(proto.level)
+#if SCHEMA_VER_AT_LEAST(15, 5, 0)
 			<< "\t" << int(proto.scale)
+#endif
 			<< "\t" /* << int(proto.size)*/
 			<< "\t" << proto.get_ai_flags_string()
 			<< "\t" << int(proto.mount_capacity)
@@ -304,10 +328,12 @@ void ProtoDumper::dump_mob_table() const
 			<< "\t" << int(proto.dex)
 			<< "\t" << int(proto.con)
 			<< "\t" << int(proto.iq)
+#if SCHEMA_VER_AT_LEAST(20, 4, 0)
 			<< "\t" << int(proto.sungma_str)
 			<< "\t" << int(proto.sungma_dex)
 			<< "\t" << int(proto.sungma_con)
 			<< "\t" << int(proto.sungma_iq)
+#endif
 			<< "\t" << proto.damage_range[0]
 			<< "\t" << proto.damage_range[1]
 			<< "\t" << proto.max_hp
@@ -316,7 +342,9 @@ void ProtoDumper::dump_mob_table() const
 			<< "\t" << (proto_ref ? proto_ref->gold_min : proto.gold_min)
 			<< "\t" << (proto_ref ? proto_ref->gold_max : proto.gold_max)
 			<< "\t" << proto.exp
+#if SCHEMA_VER_AT_LEAST(20, 4, 0)
 			<< "\t" << proto.sungma_exp
+#endif
 			<< "\t" << proto.def
 			<< "\t" << proto.attack_speed
 			<< "\t" << proto.moving_speed
@@ -332,12 +360,14 @@ void ProtoDumper::dump_mob_table() const
 		for (char val : proto.resists)
 			out << "\t" << int(val);
 
+#if SCHEMA_VER_AT_LEAST(17, 5, 0)
 		for (char val : proto.elements)
 			out << "\t" << int(val);
 
 		out << "\t" << int(proto.resist_dark)
 			<< "\t" << int(proto.resist_ice)
 			<< "\t" << int(proto.resist_earth);
+#endif
 
 		out << "\t" << std::fixed << std::setprecision(1) << proto.damage_multiply << std::setprecision(0);
 
@@ -357,13 +387,19 @@ void ProtoDumper::dump_mob_table() const
 			<< "\t" << int(proto_ref ? proto_ref->stoneskin_point : proto.stoneskin_point)
 			<< "\t" << int(proto_ref ? proto_ref->godspeed_point : proto.godspeed_point)
 			<< "\t" << int(proto_ref ? proto_ref->deathblow_point : proto.deathblow_point)
-			<< "\t" << int(proto_ref ? proto_ref->revive_point : proto.revive_point)
-			<< "\t" << int(proto_ref ? proto_ref->heal_point : proto.heal_point)
-			<< "\t" << int(proto_ref ? proto_ref->r_att_speed_p : proto.r_att_speed_p)
-			<< "\t" << int(proto_ref ? proto_ref->r_cast_speed : proto.r_cast_speed)
-			<< "\t" << int(proto_ref ? proto_ref->r_hp_regen : proto.r_hp_regen);
+			<< "\t" << int(proto_ref ? proto_ref->revive_point : proto.revive_point);
 
+#if SCHEMA_VER_AT_LEAST(17, 5, 0)
+		out << "\t" << int(proto_ref ? proto_ref->healer_point : proto.healer_point)
+			<< "\t" << int(proto_ref ? proto_ref->reduce_att_speed_point : proto.reduce_att_speed_point)
+			<< "\t" << int(proto_ref ? proto_ref->reduce_cast_speed_point : proto.reduce_cast_speed_point)
+			<< "\t" << int(proto_ref ? proto_ref->reduce_hp_regen_point : proto.reduce_hp_regen_point);
+#endif
+
+#if SCHEMA_VER_AT_LEAST(19, 5, 0)
 		out << "\t" << std::fixed << std::setprecision(1) << (proto_ref ? proto_ref->hit_range : proto.hit_range) << std::setprecision(0);
-		out << "\n";
+#endif
+
+		; out << "\n";
 	}
 }

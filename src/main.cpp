@@ -119,9 +119,9 @@ void print_header()
 	auto log = header_logger();
 
 	log->info("Proto Unpacker v{}", VERSION_STRING);
-	log->info("(c) 2025 Owsap. All rights reserved.");
+	log->info("(c) {} Owsap. All rights reserved.", __DATE__ + 7);
 	log->info("");
-	log->info("Proto Version : {}", PROTO_VERSION_STRING);
+	log->info("Proto Schema Version : {}", SCHEMA_VER_STRING);
 	log->info("Build Date : {}", __DATE__);
 	log->info("");
 }
