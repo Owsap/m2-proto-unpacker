@@ -16,6 +16,7 @@ class ProtoDumper
 public:
 	void set_output_dir(const std::string& dir);
 	void set_mob_proto_reference(MobTableRefMap ref, bool overwrite);
+	void set_dump_item_proto_mask_types(bool dump_mask_types);
 
 	void dump_item_proto(const ItemTableMap& map);
 	void dump_mob_proto(const MobTableMap& map);
@@ -34,6 +35,8 @@ private:
 
 	MobTableRefMap m_mob_proto_ref{};
 	bool m_overwrite_mob_proto = false;
+
+	bool m_dump_item_proto_mask_types = false;
 
 	const ItemTableMap* m_item_proto_map = nullptr;
 	const MobTableMap* m_mob_proto_map = nullptr;

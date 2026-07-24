@@ -30,6 +30,7 @@ public:
 	void set_json_path(const std::string& path);
 	void set_output_dir(const std::string& dir);
 	void set_mob_proto_reference(const std::string& path, bool overwrite);
+	void set_dump_item_proto_mask_types(bool dump_mask_types);
 
 private:
 	ProtoLoader m_proto_loader;

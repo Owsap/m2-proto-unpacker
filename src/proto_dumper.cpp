@@ -44,6 +44,11 @@ void ProtoDumper::set_mob_proto_reference(MobTableRefMap ref, bool overwrite)
 	m_overwrite_mob_proto = overwrite;
 }
 
+void ProtoDumper::set_dump_item_proto_mask_types(bool dump_mask_types)
+{
+	m_dump_item_proto_mask_types = dump_mask_types;
+}
+
 void ProtoDumper::dump_item_proto(const ItemTableMap& map)
 {
 	m_item_proto_map = &map;
@@ -107,6 +112,13 @@ void ProtoDumper::dump_item_table() const
 	out << "\t" << "Specular"
 		<< "\t" << "GainSocketPercent"
 		<< "\t" << "AddonType";
+
+	if (m_dump_item_proto_mask_types)
+	{
+		out << "\t" << "MaskType"
+			<< "\t" << "MaskSubType";
+	}
+
 	out << "\n";
 
 	for (const auto& [vnum, proto] : *m_item_proto_map)
@@ -151,6 +163,12 @@ void ProtoDumper::dump_item_table() const
 		out << "\t" << int(proto.specular)
 			<< "\t" << int(proto.gain_socket_pct)
 			<< "\t" << int(proto.has_addon_type());
+
+		if (m_dump_item_proto_mask_types)
+		{
+			out << "\t" << int(proto.mask_type)
+				<< "\t" << int(proto.mask_subtype);
+		}
 
 		out << "\n";
 	}

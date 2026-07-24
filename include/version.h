@@ -21,10 +21,11 @@
 // Version 19.5 (hit_range)
 // Version 20.4 (mob sungma stats, exp, item value10, item socket6)
 // Version 25.2 (item value12)
+// Version 26.1
 
-#define SCHEMA_VER_MAJOR 25
-#define SCHEMA_VER_MINOR 2
-#define SCHEMA_VER_PATCH 15
+#define SCHEMA_VER_MAJOR 26
+#define SCHEMA_VER_MINOR 1
+#define SCHEMA_VER_PATCH 11
 
 #define SCHEMA_VER_ENCODE(m, n, p) ((m) * 1000000 + (n) * 1000 + (p))
 #define SCHEMA_VER_CURRENT \
@@ -38,9 +39,10 @@
 	STRINGIFY(SCHEMA_VER_MINOR) "." \
 	STRINGIFY(SCHEMA_VER_PATCH)
 
-static constexpr std::string_view VERSION_STRING = "1.4.0";
+static constexpr std::string_view VERSION_STRING = "1.4.1";
 
 /*
+* [MINOR] Enable item proto mask type dump - v1.4.1
 * [MINOR] Add proto version–aware structs and enums. - v1.4.0
 * [MINOR] Add LZO compression. - v1.3.0
 * [PATCH] Correct ApplyTypes & TItemTable structure, ITEM_VALUES_MAX_NUM = 12. - v1.2.1

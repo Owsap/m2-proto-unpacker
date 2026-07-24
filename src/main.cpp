@@ -28,6 +28,8 @@ struct Arguments
 	std::string mob_proto_ref_path;
 	bool overwrite_mob_proto = false;
 
+	bool dump_item_proto_mask_type = false;
+
 	bool show_help = false;
 	bool show_version = false;
 	bool verbose = false;
@@ -63,6 +65,9 @@ Arguments parse_arguments(int argc, char** argv)
 			else
 				args.mob_proto_ref_path.clear();
 		}
+
+		else if (a == "--dump-item-proto-mask-types")
+			args.dump_item_proto_mask_type = true;
 
 		else if (a == "--help")
 			args.show_help = true;
@@ -190,6 +195,8 @@ int main(int argc, char** argv)
 
 	if (args.overwrite_mob_proto)
 		pu.set_mob_proto_reference(args.mob_proto_ref_path, true);
+
+	pu.set_dump_item_proto_mask_types(args.dump_item_proto_mask_type);
 
 	Timer timer;
 	pu.run();

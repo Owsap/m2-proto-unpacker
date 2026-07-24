@@ -85,6 +85,7 @@ tea-keys.json
 | `--keys [path]`                | Path to `tea-keys.json`                                                                                             |
 | `--out [path]`                 | Output directory for dumped `.txt` files                                                                            |
 | `--overwrite-mob-proto [path]` | Enable `mob_proto` overwrite using reference table. If `[path]` is omitted, `mob_proto_ref.txt` is used by default. |
+| `--dump-item-proto-mask-types` | Enable `item_proto` mask type and sub type dump.                                                                    |
 | `--verbose`                    | Enable detailed debug logging                                                                                       |
 | `--silent`                     | Only show errors                                                                                                    |
 | `--help`                       | Show help                                                                                                           |

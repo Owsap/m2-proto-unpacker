@@ -143,3 +143,8 @@ void ProtoUnpacker::set_mob_proto_reference(const std::string& path, bool overwr
 	m_mob_proto_ref_path = path.empty() ? m_mob_proto_ref_path : path;
 	m_mob_proto_overwrite = overwrite;
 }
+
+void ProtoUnpacker::set_dump_item_proto_mask_types(bool dump_mask_types)
+{
+	m_proto_dumper.set_dump_item_proto_mask_types(dump_mask_types);
+}
