@@ -9,6 +9,7 @@
 #pragma once
 
 #include <cstdint>
+#include <cstddef>
 #include <map>
 #include <unordered_map>
 #include <string>
@@ -71,8 +72,8 @@ enum class MobAIFlag
 	NOMOVE = 1,
 	COWARD = 2,
 	NOATTSHINSU = 3,
-	NOATTCHUNJO = 4,
-	NOATTJINNO = 5,
+	NOATTJINNO = 4,
+	NOATTCHUNJO = 5,
 	ATTMOB = 6,
 	BERSERK = 7,
 	STONESKIN = 8,
@@ -89,18 +90,23 @@ enum class MobAIFlag
 	RCASTSPEED = 19,
 	RHP_REGEN = 20,
 	TIMEVIT = 21,
-	//
-	//
-	//
-	//
-	//
+
+	NOLEVELDROPPENALTY = 24,
+
 	ELEMENT_BUFF_NONE = 25,
 	ELEMENT_BUFF_FIRE = 26,
 	ELEMENT_BUFF_ICE = 27,
 	ELEMENT_BUFF_ELECT = 28,
 	ELEMENT_BUFF_WIND = 29,
 	ELEMENT_BUFF_EARTH = 30,
-	ELEMENT_BUFF_DARK = 31
+	ELEMENT_BUFF_DARK = 31,
+	ELEMENT_BUFF_END = 32,
+
+	NOSHAKE = 33,
+	FORCE_COLLISION = 34,
+	NOCOLLISION = 35,
+
+	MAX_NUM = 37,
 };
 
 enum class MobRaceFlag
@@ -246,9 +252,10 @@ struct MobTable
 
 	uint16_t def;
 
-	uint32_t ai_flags;
 #if SCHEMA_VER_AT_LEAST(20, 4, 0)
-	uint32_t unknown_data1;
+	uint32_t ai_flags[2];
+#else
+	uint32_t ai_flags;
 #endif
 	uint32_t race_flags;
 	uint32_t immune_flags;

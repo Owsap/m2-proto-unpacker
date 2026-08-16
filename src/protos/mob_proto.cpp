@@ -38,7 +38,11 @@ std::string MobTable::get_battle_type_string() const
 
 std::string MobTable::get_ai_flags_string() const
 {
+#if SCHEMA_VER_AT_LEAST(20, 4, 0)
+	return util::flags_to_string<MobAIFlag>(ai_flags, static_cast<std::size_t>(MobAIFlag::MAX_NUM), "UNK_AI_FLAG_", ",", "");
+#else
 	return util::flags_to_string<MobAIFlag>(ai_flags, "UNK_AI_FLAG_", ",", "");
+#endif
 }
 
 std::string MobTable::get_race_flags_string() const

@@ -39,9 +39,10 @@
 	STRINGIFY(SCHEMA_VER_MINOR) "." \
 	STRINGIFY(SCHEMA_VER_PATCH)
 
-static constexpr std::string_view VERSION_STRING = "1.4.2";
+static constexpr std::string_view VERSION_STRING = "1.4.3";
 
 /*
+* [PATCH] Fixed and expanded mob proto AI flags. - v1.4.3
 * [PATCH] Fixed item proto wear flags. - v1.4.2
 * [PATCH] Enable item proto mask type dump - v1.4.1
 * [MINOR] Add proto version–aware structs and enums. - v1.4.0

@@ -22,6 +22,7 @@
 #include <string>
 #include <type_traits>
 #include <cstdint>
+#include <cstddef>
 #include <limits>
 #include <memory>
 
@@ -103,6 +104,39 @@ namespace util
 
 			out.append(prefix_unknown);
 			out.append(std::to_string(idx));
+		}
+
+		return out.empty() ? std::string(empty) : out;
+	}
+
+	template <typename Enum, std::size_t N>
+	std::string flags_to_string(const uint32_t (&flags)[N], std::size_t bit_count, std::string_view prefix_unknown,
+		std::string_view sep = ",", std::string_view empty = "")
+	{
+		static_assert(std::is_enum_v<Enum>, "Enum must be enum");
+
+		const std::size_t storage_bit_count = N * 32;
+		if (bit_count > storage_bit_count)
+			bit_count = storage_bit_count;
+
+		std::string out;
+		for (std::size_t index = 0; index < bit_count; ++index)
+		{
+			const uint32_t bit = (1u << (index & 31));
+			if ((flags[index >> 5] & bit) == 0)
+				continue;
+
+			if (!out.empty() && !sep.empty())
+				out.append(sep);
+
+			const std::string_view name = magic_enum::enum_name(static_cast<Enum>(index));
+			if (!name.empty())
+				out.append(name);
+			else
+			{
+				out.append(prefix_unknown);
+				out.append(std::to_string(index));
+			}
 		}
 
 		return out.empty() ? std::string(empty) : out;
