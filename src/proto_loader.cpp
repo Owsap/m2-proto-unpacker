@@ -190,7 +190,7 @@ bool ProtoLoader::load(const std::string& path, ProtoType type, const ProtoKey& 
 	}
 	else if (type == ProtoType::MOB)
 	{
-		uint32_t expected_size = count * sizeof(MobTable);
+		uint64_t expected_size = uint64_t(count) * sizeof(MobTable);
 		if (out.size() != expected_size)
 		{
 			main_logger()->debug("mob proto expected size mismatch {} != {}", out.size(), expected_size);
