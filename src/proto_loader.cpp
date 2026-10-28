@@ -92,7 +92,7 @@ MobTableRefMap ProtoLoader::load_mob_proto_reference_tsv(const std::string& path
 #endif
 
 #if SCHEMA_VER_AT_LEAST(19, 5, 0)
-		ref.hit_range = row["HitRange"].get<float>();
+		ref.hit_range = util::checked_u32(util::csv_i64(row, "HitRange"));
 #endif
 
 		out.emplace(vnum, ref);

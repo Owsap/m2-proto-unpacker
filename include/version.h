@@ -40,9 +40,10 @@
 	STRINGIFY(SCHEMA_VER_MINOR) "." \
 	STRINGIFY(SCHEMA_VER_PATCH)
 
-static constexpr std::string_view VERSION_STRING = "1.4.5";
+static constexpr std::string_view VERSION_STRING = "1.4.6";
 
 /*
+* [PATCH] Changed hit range data type to uint32_t. - v1.4.6
 * [PATCH] Support seven item sockets. - v1.4.5
 * [PATCH] Fixed item proto use types. - v1.4.4
 * [PATCH] Fixed and expanded mob proto AI flags. - v1.4.3

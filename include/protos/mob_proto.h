@@ -319,7 +319,7 @@ struct MobTable
 #endif
 
 #if SCHEMA_VER_AT_LEAST(19, 5, 0)
-	float hit_range;
+	uint32_t hit_range;
 #endif
 
 #if SCHEMA_VER_AT_LEAST(20, 4, 0)
@@ -366,7 +366,7 @@ struct MobTableRef
 #endif
 
 #if SCHEMA_VER_AT_LEAST(19, 5, 0)
-	float hit_range;
+	uint32_t hit_range;
 #endif
 };
 #pragma pack(pop)

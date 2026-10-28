@@ -415,7 +415,7 @@ void ProtoDumper::dump_mob_table() const
 #endif
 
 #if SCHEMA_VER_AT_LEAST(19, 5, 0)
-		out << "\t" << std::fixed << std::setprecision(1) << (proto_ref ? proto_ref->hit_range : proto.hit_range) << std::setprecision(0);
+		out << "\t" << int(proto_ref ? proto_ref->hit_range : proto.hit_range);
 #endif
 
 		; out << "\n";
